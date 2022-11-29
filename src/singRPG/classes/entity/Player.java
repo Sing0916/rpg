@@ -4,9 +4,11 @@ public class Player extends Unit {
     double MP = 50;
     double maxMP = 50;
 
-    public Player(double health, double attack, double Defence, double mattack, double mdefence, String n,
-            boolean isPlayer) {
-        super(health, attack, Defence, mattack, mdefence, n, isPlayer);
+    public Player(double health, double attack, double Defence, double mattack, double mdefence, double mp, String n,
+            boolean isPlayer, double EXP) {
+        super(health, attack, Defence, mattack, mdefence, n, isPlayer, EXP);
+        maxMP = mp;
+        MP = mp;
     }
 
     public Player() {
@@ -31,13 +33,5 @@ public class Player extends Unit {
 
     public double getMaxMP() {
         return maxMP;
-    }
-
-    public void setMATK(double mATK) {
-        MATK = mATK;
-    }
-
-    public double getMATK() {
-        return MATK;
     }
 }

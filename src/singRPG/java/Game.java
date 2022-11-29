@@ -58,6 +58,7 @@ public class Game {
             playerAction(userAction, player, enemy);
             if ((enemy.getHP() <= 0)) {
                 System.out.println("Enemy is dead!");
+                player.setEXP(player.getEXP() + 10);
                 return true;
             }
 
@@ -163,7 +164,7 @@ public class Game {
             case 2:
                 util.clearScreen();
                 util.printLine();
-                tmp = from.DEFUP();
+                tmp = from.defUP();
                 System.out.println(from.getNAME() + " used Defence!");
                 System.out.println(from.getNAME() + "'s defence changed to " + (int) tmp);
                 break;
@@ -196,7 +197,7 @@ public class Game {
                 System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 break;
             case 1:
-                tmp = from.DEFUP();
+                tmp = from.defUP();
                 System.out.println(from.getNAME() + " used Defence!");
                 System.out.println(from.getNAME() + "'s defence changed to " + (int) tmp);
                 break;

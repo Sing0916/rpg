@@ -4,11 +4,19 @@ import singRPG.constant.enums.DmgType;
 
 public class Unit {
     double HP = 1;
-    double maxHP = 1;
     double ATK = 1;
     double DEF = 1;
     double MATK = 1;
     double MDEF = 1;
+
+    double maxHP = 1;
+    double oATK = 1;
+    double oDEF = 1;
+    double oMATK = 1;
+    double oMDEF = 1;
+
+    double exp = 0;
+
     String name = "empty unit";
     boolean isEnemy = true;
 
@@ -16,14 +24,19 @@ public class Unit {
     }
 
     public Unit(double health, double attack, double Defence, double mattack, double mdefence, String n,
-            boolean isPlayer) {
+            boolean isPlayer, double EXP) {
         HP = health;
         maxHP = health;
         ATK = attack;
         DEF = Defence;
-        name = n;
         MATK = mattack;
         MDEF = mdefence;
+        oATK = attack;
+        oDEF = Defence;
+        oMATK = mattack;
+        oMDEF = mdefence;
+        exp = EXP;
+        name = n;
         if (isPlayer)
             isEnemy = false;
     }
@@ -71,7 +84,7 @@ public class Unit {
         return healAMT;
     }
 
-    public double DEFUP() {
+    public double defUP() {
         DEF += 5;
         return DEF;
     }
@@ -127,5 +140,61 @@ public class Unit {
 
     public boolean getIsEnemy() {
         return isEnemy;
+    }
+
+    public void setMATK(double mATK) {
+        MATK = mATK;
+    }
+
+    public double getMATK() {
+        return MATK;
+    }
+
+    public void setMDEF(double mDEF) {
+        MDEF = mDEF;
+    }
+
+    public double getMDEF() {
+        return MDEF;
+    }
+
+    public void setOATK(double attack) {
+        oATK = attack;
+    }
+
+    public double getOATK() {
+        return oATK;
+    }
+
+    public void setODEF(double DEFence) {
+        oDEF = DEFence;
+    }
+
+    public double getODEF() {
+        return oDEF;
+    }
+
+    public void setOMATK(double mATK) {
+        oMATK = mATK;
+    }
+
+    public double getOMATK() {
+        return oMATK;
+    }
+
+    public void setOMDEF(double mDEF) {
+        oMDEF = mDEF;
+    }
+
+    public double getOMDEF() {
+        return oMDEF;
+    }
+
+    public void setEXP(double EXP) {
+        exp = EXP;
+    }
+
+    public double getEXP() {
+        return exp;
     }
 }
