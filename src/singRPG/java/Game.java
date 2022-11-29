@@ -58,7 +58,7 @@ public class Game {
             playerAction(userAction, player, enemy);
             if ((enemy.getHP() <= 0)) {
                 System.out.println("Enemy is dead!");
-                return enemy.getHP() == 0 ? true : false;
+                return true;
             }
 
             // enemy action
@@ -66,7 +66,7 @@ public class Game {
             enemyAction(r, enemy, player);
             if ((player.getHP() <= 0)) {
                 System.out.println("You are dead!");
-                return enemy.getHP() == 0 ? true : false;
+                return false;
             }
 
             userAction = -1;

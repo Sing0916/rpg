@@ -34,12 +34,22 @@ public class Unit {
             case PHY:
                 dmgDeal = dmg - DEF;
                 if (dmgDeal > 0)
-                    HP -= dmgDeal;
+                    if (dmgDeal < HP)
+                        HP -= dmgDeal;
+                    else {
+                        dmgDeal = HP;
+                        HP = 0;
+                    }
                 break;
             case MAG:
                 dmgDeal = dmg - MDEF;
                 if (dmgDeal > 0)
-                    HP -= dmgDeal;
+                    if (dmgDeal < HP)
+                        HP -= dmgDeal;
+                    else {
+                        dmgDeal = HP;
+                        HP = 0;
+                    }
                 break;
             case TRE:
                 dmgDeal = dmg;
