@@ -10,6 +10,11 @@ class RPG {
         Unit player = new Unit(100, 10, 10, "Player");
         Unit enemy = new Unit(100, 5, 5, "Enemy");
         Game game = new Game(player, enemy);
-        game.run();
+        boolean win = game.start();
+        System.out.println("Ended!");
+        if (win)
+            System.out.println("You win!");
+        else
+            System.out.println("You lose!");
     }
 }

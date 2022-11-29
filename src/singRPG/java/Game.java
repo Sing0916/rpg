@@ -4,7 +4,7 @@ import java.util.Scanner;
 import singRPG.entity.Unit;
 import singRPG.constant.Colours;
 
-public class Game extends Thread {
+public class Game {
     Unit player = new Unit();
     Unit enemy = new Unit();
 
@@ -13,19 +13,17 @@ public class Game extends Thread {
         enemy = e;
     }
 
-    public void run() {
+    public boolean start() {
         try (Scanner scan = new Scanner(System.in)) {
             boolean userActionValid = false;
             int counter = 1;
 
             while (true) {
                 System.out.println("------Round " + counter + " Start------");
-                System.out.println(
-                        "Enemy HP: " + enemy.getHP() + " (ATK:" + enemy.getATK() + ", DEF:" + enemy.getDEF() + ")");
+                System.out.println("Enemy: (ATK:" + (int) enemy.getATK() + ", DEF:" + (int) enemy.getDEF() + ")");
                 showHP(enemy.getHP(), enemy.getMaxHP());
                 System.out.println("--------------------");
-                System.out.println(
-                        "Player HP: " + player.getHP() + " (ATK:" + player.getATK() + ", DEF:" + player.getDEF() + ")");
+                System.out.println("Player: (ATK:" + (int) player.getATK() + ", DEF:" + (int) player.getDEF() + ")");
                 showHP(player.getHP(), player.getMaxHP());
                 System.out.println("--------------------");
                 System.out.println("[0]: Attack");
@@ -51,6 +49,7 @@ public class Game extends Thread {
                 }
                 action(userAction, player, enemy);
                 if ((enemy.getHP() <= 0)) {
+                    System.out.println("Enemy is dead!");
                     break;
                 }
 
@@ -58,6 +57,7 @@ public class Game extends Thread {
                 int r = (int) (Math.random() * 3);
                 action(r, enemy, player);
                 if ((player.getHP() <= 0)) {
+                    System.out.println("You are dead!");
                     break;
                 }
 
@@ -67,13 +67,7 @@ public class Game extends Thread {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
             }
-            System.out.println("Ended!");
-            if (enemy.getHP() <= 0)
-                System.out.println("You win!");
-            else if (player.getHP() <= 0)
-                System.out.println("You lose!");
-            else
-                System.out.println("Error end");
+            return enemy.getHP() == 0 ? true : false;
         }
     }
 
@@ -84,7 +78,7 @@ public class Game extends Thread {
                 tmp = to.takeDMG(from.getATK());
                 System.out.println(from.getNAME() + " used Attack!");
                 if (tmp > 0)
-                    System.out.println(to.getNAME() + " takes " + tmp + " damage!");
+                    System.out.println(to.getNAME() + " takes " + (int) tmp + " damage!");
                 else
                     System.out.println(to.getNAME() + " takes 0 damage!");
                 System.out.println(to.getNAME() + " current HP is " + to.getHP());
@@ -92,12 +86,12 @@ public class Game extends Thread {
             case 1:
                 tmp = from.DEFUP();
                 System.out.println(from.getNAME() + " used Defence!");
-                System.out.println(from.getNAME() + "'s defence changed to " + tmp);
+                System.out.println(from.getNAME() + "'s defence changed to " + (int) tmp);
                 break;
             case 2:
                 tmp = from.pwrUp();
                 System.out.println(from.getNAME() + " used Power Up!");
-                System.out.println(from.getNAME() + "'s attack changed to " + tmp);
+                System.out.println(from.getNAME() + "'s attack changed to " + (int) tmp);
                 break;
         }
         System.out.println("--------------------");
@@ -110,7 +104,7 @@ public class Game extends Thread {
 
     public static void showHP(double HP, double maxHP) {
         int p = (int) Math.floor((HP / maxHP) * 10);
-        System.out.print("[");
+        System.out.print("HP: " + (int) HP + "/" + (int) maxHP + " [");
         for (int i = 0; i < 10; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_GREEN + "*" + Colours.ANSI_RESET);
