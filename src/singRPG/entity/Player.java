@@ -13,8 +13,8 @@ public class Player extends Unit {
         super();
     }
 
-    public void useMagic() {
-        MP -= 10;
+    public void useMagic(double c) {
+        MP -= c;
     }
 
     public void setMP(double mp) {

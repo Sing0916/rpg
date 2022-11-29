@@ -13,7 +13,6 @@ class RPG {
         Unit enemy = new Unit(100, 5, 5, 0, 0, "Wolf", false);
         Game game = new Game(player, enemy);
         boolean win = game.start();
-        System.out.println("Ended!");
         if (win)
             System.out.println("You win!");
         else
