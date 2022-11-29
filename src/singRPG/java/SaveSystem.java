@@ -15,7 +15,7 @@ public class SaveSystem {
     // current version = 1.1
     public static String[] readConfig()
             throws org.json.simple.parser.ParseException, FileNotFoundException, IOException {
-        Object obj = new JSONParser().parse(new FileReader("rpg/save/config.json"));
+        Object obj = new JSONParser().parse(new FileReader("save/config.json"));
         JSONObject jo = (JSONObject) obj;
         array[0] = (String) jo.get("Name");
         array[1] = (String) jo.get("Version");
@@ -35,7 +35,7 @@ public class SaveSystem {
         playerDetails.put("Level", p.getLevel());
         playerDetails.put("version", array[1]);
 
-        try (FileWriter file = new FileWriter("rpg/save/player" + user + ".json")) {
+        try (FileWriter file = new FileWriter("save/player" + user + ".json")) {
             file.write(playerDetails.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -45,7 +45,7 @@ public class SaveSystem {
 
     public static Player read(int user)
             throws org.json.simple.parser.ParseException, FileNotFoundException, IOException {
-        Object obj = new JSONParser().parse(new FileReader("rpg/save/player" + user + ".json"));
+        Object obj = new JSONParser().parse(new FileReader("save/player" + user + ".json"));
         JSONObject jo = (JSONObject) obj;
         String name = (String) jo.get("Name");
         double maxHP = (double) jo.get("MaxHp");
@@ -61,7 +61,7 @@ public class SaveSystem {
 
     public static void update() throws org.json.simple.parser.ParseException, FileNotFoundException, IOException {
         for (int i = 1; i <= 2; i++) {
-            Object obj = new JSONParser().parse(new FileReader("rpg/save/player" + i + ".json"));
+            Object obj = new JSONParser().parse(new FileReader("save/player" + i + ".json"));
             JSONObject jo = (JSONObject) obj;
             String version = (String) jo.get("version");
             switch (version) {
@@ -70,7 +70,7 @@ public class SaveSystem {
                     break;
             }
             jo.replace("version", array[1]);
-            try (FileWriter file = new FileWriter("rpg/save/player" + i + ".json")) {
+            try (FileWriter file = new FileWriter("save/player" + i + ".json")) {
                 file.write(jo.toJSONString());
                 file.flush();
             } catch (IOException e) {
