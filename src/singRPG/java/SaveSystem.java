@@ -15,8 +15,8 @@ public class SaveSystem {
     public static void write(Player p, int user) {
         JSONObject playerDetails = new JSONObject();
         playerDetails.put("Name", p.getNAME());
-        playerDetails.put("MaxHp", p.getMaxHP());
-        playerDetails.put("MaxMp", p.getMaxMP());
+        playerDetails.put("MaxHp", p.getBaseHP());
+        playerDetails.put("MaxMp", p.getBaseMP());
         playerDetails.put("Atk", p.getOATK());
         playerDetails.put("Def", p.getODEF());
         playerDetails.put("MAtk", p.getOMATK());

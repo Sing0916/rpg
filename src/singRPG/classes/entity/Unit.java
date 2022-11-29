@@ -15,6 +15,7 @@ public class Unit {
     double oMATK = 1;
     double oMDEF = 1;
 
+    double baseHP = 1;
     double exp = 0;
 
     String name = "empty unit";
@@ -25,17 +26,20 @@ public class Unit {
 
     public Unit(double health, double attack, double Defence, double mattack, double mdefence, String n,
             boolean isPlayer, double EXP) {
-        HP = health;
-        maxHP = health;
-        ATK = attack;
-        DEF = Defence;
-        MATK = mattack;
-        MDEF = mdefence;
-        oATK = attack;
-        oDEF = Defence;
-        oMATK = mattack;
-        oMDEF = mdefence;
+        maxHP = health + 10 * Math.floor(EXP / 100);
+        oATK = attack + 5 * Math.floor(EXP / 100);
+        oDEF = Defence + 5 * Math.floor(EXP / 100);
+        oMATK = mattack + 5 * Math.floor(EXP / 100);
+        oMDEF = mdefence + 5 * Math.floor(EXP / 100);
+
+        HP = maxHP;
+        ATK = oATK;
+        DEF = oDEF;
+        MATK = oMATK;
+        MDEF = oMDEF;
+
         exp = EXP;
+        baseHP = health;
         name = n;
         if (isPlayer)
             isEnemy = false;
@@ -196,5 +200,13 @@ public class Unit {
 
     public double getEXP() {
         return exp;
+    }
+
+    public void setBaseHP(double hp) {
+        baseHP = hp;
+    }
+
+    public double getBaseHP() {
+        return baseHP;
     }
 }
