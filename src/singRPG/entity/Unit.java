@@ -1,3 +1,5 @@
+package singRPG.entity;
+
 public class Unit {
     double HP;
     double maxHP;
@@ -5,7 +7,15 @@ public class Unit {
     double DEF;
     String name;
 
-    Unit(double health, double attack, double DEFence, String n) {
+    public Unit() {
+        HP = 1;
+        maxHP = 1;
+        ATK = 1;
+        DEF = 1;
+        name = "empty unit";
+    }
+
+    public Unit(double health, double attack, double DEFence, String n) {
         HP = health;
         maxHP = health;
         ATK = attack;

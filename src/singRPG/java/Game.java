@@ -1,19 +1,20 @@
+package singRPG.java;
+
 import java.util.Scanner;
+import singRPG.entity.Unit;
+import singRPG.constant.Colours;
 
-class rpg {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_RED = "\u001B[31m";
+public class Game extends Thread {
+    Unit player = new Unit();
+    Unit enemy = new Unit();
 
-    public static void main(String[] args) {
+    public Game(Unit p, Unit e) {
+        player = p;
+        enemy = e;
+    }
 
+    public void run() {
         try (Scanner scan = new Scanner(System.in)) {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-            System.out.println("Hello, World!");
-
-            Unit player = new Unit(100, 10, 10, "Player");
-            Unit enemy = new Unit(100, 5, 5, "Enemy");
             boolean userActionValid = false;
             int counter = 1;
 
@@ -112,9 +113,9 @@ class rpg {
         System.out.print("[");
         for (int i = 0; i < 10; i++) {
             if (i < p)
-                System.out.print(ANSI_GREEN + "*" + ANSI_RESET);
+                System.out.print(Colours.ANSI_GREEN + "*" + Colours.ANSI_RESET);
             else
-                System.out.print(ANSI_RED + "=" + ANSI_RESET);
+                System.out.print(Colours.ANSI_RED + "=" + Colours.ANSI_RESET);
         }
         System.out.print("]");
         System.out.println();
