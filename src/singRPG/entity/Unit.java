@@ -1,40 +1,61 @@
 package singRPG.entity;
 
+import singRPG.constant.DmgType;
+
 public class Unit {
     double HP = 1;
     double maxHP = 1;
     double ATK = 1;
     double DEF = 1;
+    double MATK = 1;
+    double MDEF = 1;
     String name = "empty unit";
     boolean isEnemy = true;
 
     public Unit() {
     }
 
-    public Unit(double health, double attack, double DEFence, String n, boolean isPlayer) {
+    public Unit(double health, double attack, double Defence, double mattack, double mdefence, String n,
+            boolean isPlayer) {
         HP = health;
         maxHP = health;
         ATK = attack;
-        DEF = DEFence;
+        DEF = Defence;
         name = n;
+        MATK = mattack;
+        MDEF = mdefence;
         if (isPlayer)
             isEnemy = false;
     }
 
-    public double takeDMG(double dmg) {
-        double dmgDeal = dmg - DEF;
-        if (dmgDeal > 0)
-            HP = HP - dmgDeal;
+    public double takeDMG(double dmg, DmgType type) {
+        double dmgDeal = 0;
+        switch (type) {
+            case PHY:
+                dmgDeal = dmg - DEF;
+                if (dmgDeal > 0)
+                    HP -= dmgDeal;
+                break;
+            case MAG:
+                dmgDeal = dmg - MDEF;
+                if (dmgDeal > 0)
+                    HP -= dmgDeal;
+                break;
+            case TRE:
+                dmgDeal = dmg;
+                HP -= dmgDeal;
+                break;
+        }
         return dmgDeal;
     }
 
     public double DEFUP() {
-        DEF = DEF + 5;
+        DEF += 5;
         return DEF;
     }
 
     public double pwrUp() {
-        ATK = ATK + 5;
+        ATK += 5;
         return ATK;
     }
 
