@@ -1,4 +1,4 @@
-package singRPG.constant;
+package singRPG.constant.enums;
 
 public enum DmgType {
     PHY,

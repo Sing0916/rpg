@@ -1,7 +1,7 @@
 package singRPG.java;
 
-import singRPG.entity.Player;
-import singRPG.entity.Unit;
+import singRPG.classes.entity.Player;
+import singRPG.classes.entity.Unit;
 
 class RPG {
     static Util util = new Util();

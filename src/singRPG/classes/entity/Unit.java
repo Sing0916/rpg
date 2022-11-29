@@ -1,6 +1,6 @@
-package singRPG.entity;
+package singRPG.classes.entity;
 
-import singRPG.constant.DmgType;
+import singRPG.constant.enums.DmgType;
 
 public class Unit {
     double HP = 1;

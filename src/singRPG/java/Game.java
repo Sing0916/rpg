@@ -3,12 +3,12 @@ package singRPG.java;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import singRPG.entity.Magic;
-import singRPG.entity.Player;
-import singRPG.entity.Unit;
+import singRPG.classes.Magic;
+import singRPG.classes.entity.Player;
+import singRPG.classes.entity.Unit;
 import singRPG.constant.Colours;
-import singRPG.constant.DmgType;
-import singRPG.constant.MagicType;
+import singRPG.constant.enums.DmgType;
+import singRPG.constant.enums.MagicType;
 
 public class Game {
     static Player player = new Player();

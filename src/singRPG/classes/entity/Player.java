@@ -1,4 +1,4 @@
-package singRPG.entity;
+package singRPG.classes.entity;
 
 public class Player extends Unit {
     double MP = 50;

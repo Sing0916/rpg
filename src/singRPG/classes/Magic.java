@@ -1,6 +1,6 @@
-package singRPG.entity;
+package singRPG.classes;
 
-import singRPG.constant.MagicType;
+import singRPG.constant.enums.MagicType;
 
 public class Magic {
     double AMT = 1;
