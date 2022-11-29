@@ -3,9 +3,10 @@ package singRPG.java;
 import singRPG.entity.Unit;
 
 class RPG {
+    static Util util = new Util();
+
     public static void main(String[] args) {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        util.clearScreen();
 
         Unit player = new Unit(100, 10, 10, "Sing", true);
         Unit enemy = new Unit(100, 5, 5, "Wolf", false);

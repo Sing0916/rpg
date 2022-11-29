@@ -1,5 +1,7 @@
 package singRPG.java;
 
+import singRPG.constant.Colours;
+
 public class Util {
     public void clearScreen() {
         System.out.print("\033[H\033[2J");
@@ -12,5 +14,9 @@ public class Util {
             System.out.flush();
         }
         System.out.print("\033[0J");
+    }
+
+    public void printLine() {
+        System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
     }
 }

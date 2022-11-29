@@ -3,7 +3,6 @@ package singRPG.java;
 import java.util.Scanner;
 import singRPG.entity.Unit;
 import singRPG.constant.Colours;
-import singRPG.java.Util;
 
 public class Game {
     static Unit player = new Unit();
@@ -35,7 +34,7 @@ public class Game {
                     userAction = scan.nextInt();
                     if ((userAction >= 0) && (userAction <= 2)) {
                         util.clearScreen();
-                        System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
+                        util.printLine();
                         break;
                     } else {
                         if (firstAction) {
@@ -91,7 +90,7 @@ public class Game {
                 System.out.println(from.getNAME() + "'s attack changed to " + (int) tmp);
                 break;
         }
-        System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
+        util.printLine();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -119,6 +118,6 @@ public class Game {
         System.out.print("]");
         System.out.print(" ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
         System.out.println("");
-        System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
+        util.printLine();
     }
 }
