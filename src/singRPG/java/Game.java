@@ -217,9 +217,12 @@ public class Game {
 
     public static void showDetail(Unit u) {
         if (u.getIsEnemy())
-            System.out.println("Enemy: " + u.getNAME() + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
+            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
+                    + ", ATK:" + (int) u.getATK() + ", DEF:"
+                    + (int) u.getDEF());
         else
-            System.out.println("Player: " + u.getNAME() + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
+            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
+                    + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
 
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
         System.out.print("HP: " + (int) u.getHP() + "/" + (int) u.getMaxHP() + " [");
@@ -240,9 +243,11 @@ public class Game {
 
     public static void showDetail(Player u) {
         if (u.getIsEnemy())
-            System.out.println("Enemy: " + u.getNAME() + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
+            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
+                    + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
         else
-            System.out.println("Player: " + u.getNAME() + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
+            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
+                    + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
 
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
         System.out.print("HP: " + (int) u.getHP() + "/" + (int) u.getMaxHP() + " [");

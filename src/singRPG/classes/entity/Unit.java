@@ -17,6 +17,7 @@ public class Unit {
 
     double baseHP = 1;
     double exp = 0;
+    double level = 0;
 
     String name = "empty unit";
     boolean isEnemy = true;
@@ -27,22 +28,33 @@ public class Unit {
     public Unit(double health, double attack, double Defence, double mattack, double mdefence, String n,
             boolean isPlayer, double EXP) {
         maxHP = health + 10 * Math.floor(EXP / 100);
-        oATK = attack + 5 * Math.floor(EXP / 100);
-        oDEF = Defence + 5 * Math.floor(EXP / 100);
-        oMATK = mattack + 5 * Math.floor(EXP / 100);
-        oMDEF = mdefence + 5 * Math.floor(EXP / 100);
+        oATK = attack;
+        oDEF = Defence;
+        oMATK = mattack;
+        oMDEF = mdefence;
 
         HP = maxHP;
-        ATK = oATK;
-        DEF = oDEF;
-        MATK = oMATK;
-        MDEF = oMDEF;
+        ATK = oATK + 1 * Math.floor(EXP / 100);
+        DEF = oDEF + 1 * Math.floor(EXP / 100);
+        MATK = oMATK + 1 * Math.floor(EXP / 100);
+        MDEF = oMDEF + 1 * Math.floor(EXP / 100);
 
         exp = EXP;
+        level = Math.floor(EXP / 100);
         baseHP = health;
         name = n;
         if (isPlayer)
             isEnemy = false;
+    }
+
+    public void updateLV() {
+        double tmp = level;
+        level = Math.floor(exp / 100);
+        if (tmp != level) {
+            maxHP = baseHP + 10 * level;
+            HP = maxHP;
+            System.out.println("Level up! " + tmp + "->" + level);
+        }
     }
 
     public double takeDMG(double dmg, DmgType type) {
@@ -208,5 +220,13 @@ public class Unit {
 
     public double getBaseHP() {
         return baseHP;
+    }
+
+    public void setLevel(double lv) {
+        level = lv;
+    }
+
+    public double getLevel() {
+        return level;
     }
 }
