@@ -7,8 +7,8 @@ class RPG {
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
-        Unit player = new Unit(100, 10, 10, "Player");
-        Unit enemy = new Unit(100, 5, 5, "Enemy");
+        Unit player = new Unit(100, 10, 10, "Sing", true);
+        Unit enemy = new Unit(100, 5, 5, "Wolf", false);
         Game game = new Game(player, enemy);
         boolean win = game.start();
         System.out.println("Ended!");

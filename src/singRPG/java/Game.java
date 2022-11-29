@@ -3,10 +3,12 @@ package singRPG.java;
 import java.util.Scanner;
 import singRPG.entity.Unit;
 import singRPG.constant.Colours;
+import singRPG.java.Util;
 
 public class Game {
-    Unit player = new Unit();
-    Unit enemy = new Unit();
+    static Unit player = new Unit();
+    static Unit enemy = new Unit();
+    static Util util = new Util();
 
     public Game(Unit p, Unit e) {
         player = p;
@@ -15,35 +17,32 @@ public class Game {
 
     public boolean start() {
         try (Scanner scan = new Scanner(System.in)) {
-            boolean userActionValid = false;
             int counter = 1;
 
             while (true) {
-                System.out.println("------Round " + counter + " Start------");
-                System.out.println("Enemy: (ATK:" + (int) enemy.getATK() + ", DEF:" + (int) enemy.getDEF() + ")");
-                showHP(enemy.getHP(), enemy.getMaxHP());
-                System.out.println("--------------------");
-                System.out.println("Player: (ATK:" + (int) player.getATK() + ", DEF:" + (int) player.getDEF() + ")");
-                showHP(player.getHP(), player.getMaxHP());
-                System.out.println("--------------------");
+                System.out
+                        .println(Colours.ANSI_YELLOW + "------Round " + counter + " Start------" + Colours.ANSI_RESET);
+                showDetail(enemy);
+                showDetail(player);
                 System.out.println("[0]: Attack");
                 System.out.println("[1]: Defence");
                 System.out.println("[2]: Power Up");
 
                 // user action
                 int userAction = -1;
-                while (!userActionValid) {
+                boolean firstAction = true;
+                while (true) {
                     userAction = scan.nextInt();
-                    System.out.print("\033[1F\33[K");
-                    System.out.flush();
                     if ((userAction >= 0) && (userAction <= 2)) {
-                        userActionValid = true;
-                        System.out.print("\033[H\033[2J");
-                        System.out.flush();
-                        System.out.println("--------------------");
+                        util.clearScreen();
+                        System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
+                        break;
                     } else {
-                        System.out.print("\033[1F\33[K");
-                        System.out.flush();
+                        if (firstAction) {
+                            util.clearLine(1);
+                            firstAction = false;
+                        } else
+                            util.clearLine(2);
                         System.out.println("Invalid input!");
                     }
                 }
@@ -61,11 +60,9 @@ public class Game {
                     break;
                 }
 
-                userActionValid = false;
                 userAction = -1;
                 counter++;
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+                util.clearScreen();
             }
             return enemy.getHP() == 0 ? true : false;
         }
@@ -94,24 +91,34 @@ public class Game {
                 System.out.println(from.getNAME() + "'s attack changed to " + (int) tmp);
                 break;
         }
-        System.out.println("--------------------");
+        System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public static void showHP(double HP, double maxHP) {
-        int p = (int) Math.floor((HP / maxHP) * 10);
+    public static void showDetail(Unit u) {
+        double HP = u.getHP();
+        double maxHP = u.getMaxHP();
+
+        if (u.getIsEnemy())
+            System.out.println("Enemy: " + u.getNAME());
+        else
+            System.out.println("Player: " + u.getNAME());
+
+        int p = (int) Math.floor((HP / maxHP) * 20);
         System.out.print("HP: " + (int) HP + "/" + (int) maxHP + " [");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             if (i < p)
-                System.out.print(Colours.ANSI_GREEN + "*" + Colours.ANSI_RESET);
+                System.out.print(Colours.ANSI_GREEN + "=" + Colours.ANSI_RESET);
             else
-                System.out.print(Colours.ANSI_RED + "=" + Colours.ANSI_RESET);
+                System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
         }
         System.out.print("]");
-        System.out.println();
+        System.out.print(" ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
+        System.out.println("");
+        System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
     }
 }

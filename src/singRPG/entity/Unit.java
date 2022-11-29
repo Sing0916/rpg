@@ -1,26 +1,24 @@
 package singRPG.entity;
 
 public class Unit {
-    double HP;
-    double maxHP;
-    double ATK;
-    double DEF;
-    String name;
+    double HP = 1;
+    double maxHP = 1;
+    double ATK = 1;
+    double DEF = 1;
+    String name = "empty unit";
+    boolean isEnemy = true;
 
     public Unit() {
-        HP = 1;
-        maxHP = 1;
-        ATK = 1;
-        DEF = 1;
-        name = "empty unit";
     }
 
-    public Unit(double health, double attack, double DEFence, String n) {
+    public Unit(double health, double attack, double DEFence, String n, boolean isPlayer) {
         HP = health;
         maxHP = health;
         ATK = attack;
         DEF = DEFence;
         name = n;
+        if (isPlayer)
+            isEnemy = false;
     }
 
     public double takeDMG(double dmg) {
@@ -78,5 +76,13 @@ public class Unit {
 
     public double getMaxHP() {
         return maxHP;
+    }
+
+    public void setIsEnemy(boolean t) {
+        isEnemy = t;
+    }
+
+    public boolean getIsEnemy() {
+        return isEnemy;
     }
 }
