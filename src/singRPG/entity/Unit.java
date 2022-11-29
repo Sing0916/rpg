@@ -49,6 +49,18 @@ public class Unit {
         return dmgDeal;
     }
 
+    public double heal(double h) {
+        double healAMT = 0;
+        if ((maxHP - HP) >= h) {
+            healAMT = h;
+            HP += healAMT;
+        } else {
+            healAMT = maxHP - HP;
+            HP += healAMT;
+        }
+        return healAMT;
+    }
+
     public double DEFUP() {
         DEF += 5;
         return DEF;

@@ -1,27 +1,31 @@
 package singRPG.entity;
 
+import singRPG.constant.MagicType;
+
 public class Magic {
-    double DMG = 1;
+    double AMT = 1;
     double COST = 1;
     String name = "empty magic";
     int chance = 1;// 0-9
+    MagicType type;
 
-    public Magic(double d, double c, String n, int ch) {
-        DMG = d;
+    public Magic(double d, double c, String n, int ch, MagicType t) {
+        AMT = d;
         COST = c;
         name = n;
         chance = ch;
+        type = t;
     }
 
     Magic() {
     }
 
-    public double getDMG() {
-        return DMG;
+    public double getAMT() {
+        return AMT;
     }
 
-    public void setDMG(double d) {
-        DMG = d;
+    public void setAMT(double d) {
+        AMT = d;
     }
 
     public double getCOST() {
@@ -46,5 +50,13 @@ public class Magic {
 
     public void setChance(int c) {
         chance = c;
+    }
+
+    public MagicType getType() {
+        return type;
+    }
+
+    public void setType(MagicType t) {
+        type = t;
     }
 }

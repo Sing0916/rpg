@@ -8,20 +8,22 @@ import singRPG.entity.Player;
 import singRPG.entity.Unit;
 import singRPG.constant.Colours;
 import singRPG.constant.DmgType;
+import singRPG.constant.MagicType;
 
 public class Game {
     static Player player = new Player();
     static Unit enemy = new Unit();
     static Util util = new Util();
-    static Magic magics[] = new Magic[3];
+    static Magic magics[] = new Magic[4];
     static Scanner scan = new Scanner(System.in);
 
     public Game(Player p, Unit e) {
         player = p;
         enemy = e;
-        magics[0] = new Magic(10.0, 5.0, "Fire Ball", 9);
-        magics[1] = new Magic(20.0, 10.0, "Thunder Strike", 6);
-        magics[2] = new Magic(50.0, 25.0, "Shadow Claw", 3);
+        magics[0] = new Magic(10.0, 5.0, "Fire Ball", 9, MagicType.DMG);
+        magics[1] = new Magic(20.0, 10.0, "Thunder Strike", 6, MagicType.DMG);
+        magics[2] = new Magic(50.0, 25.0, "Shadow Claw", 3, MagicType.DMG);
+        magics[3] = new Magic(20.0, 10.0, "Heal", 9, MagicType.HEAL);
     }
 
     public boolean start() {
@@ -56,7 +58,7 @@ public class Game {
             playerAction(userAction, player, enemy);
             if ((enemy.getHP() <= 0)) {
                 System.out.println("Enemy is dead!");
-                break;
+                return enemy.getHP() == 0 ? true : false;
             }
 
             // enemy action
@@ -64,7 +66,7 @@ public class Game {
             enemyAction(r, enemy, player);
             if ((player.getHP() <= 0)) {
                 System.out.println("You are dead!");
-                break;
+                return enemy.getHP() == 0 ? true : false;
             }
 
             userAction = -1;
@@ -73,7 +75,6 @@ public class Game {
             if (player.getMP() < 50)
                 player.setMP(player.getMP() + 5);
         }
-        return enemy.getHP() == 0 ? true : false;
     }
 
     public static void playerAction(int input, Player from, Unit to) {
@@ -88,20 +89,33 @@ public class Game {
                     System.out.println(to.getNAME() + " takes " + (int) tmp + " damage!");
                 else
                     System.out.println(to.getNAME() + " takes 0 damage!");
-                System.out.println(to.getNAME() + " current HP is " + to.getHP());
+                System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 break;
             case 1:
                 util.clearLine(5);
                 for (Magic magic : magics) {
-                    System.out.println("[" + Arrays.asList(magics).indexOf(magic) + "]: " + magic.getNAME() + " - DMG: "
-                            + magic.getDMG() + ", COST: " + magic.getCOST() + ", HIT CHANCE: "
-                            + (double) magic.getChance() / 10);
+                    switch (magic.getType()) {
+                        case BUFF:
+                            break;
+                        case DMG:
+                            System.out.println(
+                                    "[" + Arrays.asList(magics).indexOf(magic) + "]: " + magic.getNAME() + " - Damage: "
+                                            + magic.getAMT() + ", Cost: " + magic.getCOST() + ", Hit Chance: "
+                                            + (double) magic.getChance() / 10);
+                            break;
+                        case HEAL:
+                            System.out.println(
+                                    "[" + Arrays.asList(magics).indexOf(magic) + "]: " + magic.getNAME() + " - Amount: "
+                                            + magic.getAMT() + ", Cost: " + magic.getCOST() + ", Hit Chance: "
+                                            + (double) magic.getChance() / 10);
+                            break;
+                    }
                 }
                 int userAction = -1;
                 boolean firstAction = true;
                 while (true) {
                     userAction = scan.nextInt();
-                    if ((userAction >= 0) && (userAction <= 2)) {
+                    if (((userAction >= 0) && (userAction <= 3)) || (userAction == 898)) {
                         break;
                     } else {
                         if (firstAction) {
@@ -114,18 +128,37 @@ public class Game {
                 }
                 util.clearScreen();
                 util.printLine();
-                System.out.println(from.getNAME() + " used " + magics[userAction].getNAME() + "!");
-                int r = (int) (Math.random() * 10);
-                if (r > magics[userAction].getChance()) {
-                    tmp = to.takeDMG(magics[userAction].getDMG(), DmgType.MAG);
-                    from.useMagic(magics[userAction].getCOST());
-                } else
-                    tmp = 0;
-                if (tmp > 0)
+                if (userAction == 898) {
+                    System.out.println(from.getNAME() + " used cheats!");
+                    tmp = to.takeDMG(to.getHP() - 1, DmgType.TRE);
                     System.out.println(to.getNAME() + " takes " + (int) tmp + " damage!");
-                else
-                    System.out.println(from.getNAME() + "'s Magic missed!");
-                System.out.println(to.getNAME() + " current HP is " + to.getHP());
+                    System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
+                } else {
+                    System.out.println(from.getNAME() + " used " + magics[userAction].getNAME() + "!");
+                    switch (magics[userAction].getType()) {
+                        case DMG:
+                            int r = (int) (Math.random() * 10);
+                            if (r <= magics[userAction].getChance()) {
+                                tmp = to.takeDMG(magics[userAction].getAMT(), DmgType.MAG);
+                                from.useMagic(magics[userAction].getCOST());
+                            } else
+                                tmp = 0;
+                            if (tmp > 0)
+                                System.out.println(to.getNAME() + " takes " + (int) tmp + " damage!");
+                            else
+                                System.out.println(from.getNAME() + "'s Magic missed!");
+                            System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
+                            break;
+                        case HEAL:
+                            double amt = from.heal(magics[userAction].getAMT());
+                            System.out
+                                    .println(from.getNAME() + " healed for " + (int) amt + " HP!");
+                            System.out.println(from.getNAME() + " current HP is " + (int) to.getHP());
+                            break;
+                        case BUFF:
+                            break;
+                    }
+                }
                 break;
             case 2:
                 util.clearScreen();
@@ -160,7 +193,7 @@ public class Game {
                     System.out.println(to.getNAME() + " takes " + (int) tmp + " damage!");
                 else
                     System.out.println(to.getNAME() + " takes 0 damage!");
-                System.out.println(to.getNAME() + " current HP is " + to.getHP());
+                System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 break;
             case 1:
                 tmp = from.DEFUP();
@@ -192,8 +225,12 @@ public class Game {
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_GREEN + "=" + Colours.ANSI_RESET);
-            else
-                System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
+            else {
+                if ((p == 0) && (i == 0))
+                    System.out.print(Colours.ANSI_GREEN + "|" + Colours.ANSI_RESET);
+                else
+                    System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
+            }
         }
         System.out.print("]");
         System.out.println("");
@@ -219,8 +256,12 @@ public class Game {
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_CYAN + "=" + Colours.ANSI_RESET);
-            else
-                System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
+            else {
+                if ((p == 0) && (i == 0))
+                    System.out.print(Colours.ANSI_GREEN + "|" + Colours.ANSI_RESET);
+                else
+                    System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
+            }
         }
         System.out.print("]");
         System.out.println("");
