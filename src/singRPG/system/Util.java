@@ -1,4 +1,4 @@
-package singRPG.java;
+package singRPG.system;
 
 import singRPG.constant.Colours;
 

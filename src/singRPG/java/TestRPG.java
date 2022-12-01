@@ -9,6 +9,7 @@ import org.json.simple.parser.ParseException;
 import singRPG.classes.Magic;
 import singRPG.system.MagicSystem;
 import singRPG.system.SaveSystem;
+import singRPG.system.Util;
 
 public class TestRPG {
     static Util util = new Util();
