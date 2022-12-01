@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.json.simple.parser.ParseException;
-
 import singRPG.classes.Magic;
 import singRPG.classes.entity.Player;
 import singRPG.classes.entity.Unit;
@@ -152,9 +151,8 @@ public class Game {
                 util.printLine();
                 if (userAction == 898) {
                     System.out.println(from.getNAME() + " used cheats!");
-                    tmp = to.takeDMG(to.getHP() - 1, DmgType.TRE);
+                    tmp = to.takeDMG(to.getHP(), DmgType.TRE);
                     System.out.println(to.getNAME() + " takes " + (int) tmp + " damage!");
-                    System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 } else {
                     System.out.println(
                             from.getNAME() + " used " + magics[menuCount * 3 + userAction - 1].getNAME() + "!");
