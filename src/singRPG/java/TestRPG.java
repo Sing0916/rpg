@@ -21,7 +21,7 @@ public class TestRPG {
         array = SaveSystem.readConfig();
         SaveSystem.update();
 
-        outer: while (true) {
+        while (true) {
             util.printLine();
             System.out.println("[1] Create new player");
             System.out.println("[2] Create Magic");
@@ -43,7 +43,7 @@ public class TestRPG {
             }
             switch (userAction) {
                 case 1:
-                    SaveSystem.create();
+                    int tmp = SaveSystem.create();
                     break;
                 case 2:
                     MagicSystem.createMagic();

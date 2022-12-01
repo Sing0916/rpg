@@ -14,6 +14,7 @@ import singRPG.classes.entity.Player;
 public class SaveSystem {
     static Scanner scan = new Scanner(System.in);
     static String array[] = new String[3];
+    static int playerNum = 0;
 
     // current version = 1.1
     public static String[] readConfig()
@@ -22,8 +23,8 @@ public class SaveSystem {
         JSONObject jo = (JSONObject) obj;
         array[0] = (String) jo.get("Name");
         array[1] = (String) jo.get("Version");
-        int temp = Integer.parseInt((String) jo.get("Player"));
-        array[2] = Integer.toString(temp);
+        playerNum = Integer.parseInt((String) jo.get("Player"));
+        array[2] = Integer.toString(playerNum);
         return array;
     }
 
@@ -65,7 +66,7 @@ public class SaveSystem {
     }
 
     public static void update() throws org.json.simple.parser.ParseException, FileNotFoundException, IOException {
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= playerNum; i++) {
             Object obj = new JSONParser().parse(new FileReader("save/player" + i + ".json"));
             JSONObject jo = (JSONObject) obj;
             String version = (String) jo.get("version");
@@ -84,19 +85,20 @@ public class SaveSystem {
         }
     }
 
-    public static void create() throws FileNotFoundException, IOException, ParseException {
+    public static int create() throws FileNotFoundException, IOException, ParseException {
+        Util.clearScreen();
         System.out.print("Name: ");
         String name = scan.nextLine();
         JSONObject playerDetails = new JSONObject();
         playerDetails.put("Name", name);
-        playerDetails.put("MaxHp", 100);
-        playerDetails.put("MaxMp", 10);
-        playerDetails.put("Atk", 10);
-        playerDetails.put("Def", 10);
-        playerDetails.put("MAtk", 20);
-        playerDetails.put("MDef", 10);
-        playerDetails.put("Exp", 0);
-        playerDetails.put("Level", 0);
+        playerDetails.put("MaxHp", 100.0);
+        playerDetails.put("MaxMp", 10.0);
+        playerDetails.put("Atk", 10.0);
+        playerDetails.put("Def", 10.0);
+        playerDetails.put("MAtk", 20.0);
+        playerDetails.put("MDef", 10.0);
+        playerDetails.put("Exp", 100.0);
+        playerDetails.put("Level", 0.0);
         playerDetails.put("version", array[1]);
         int temp = Integer.parseInt(array[2]) + 1;
 
@@ -125,5 +127,6 @@ public class SaveSystem {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return temp;
     }
 }

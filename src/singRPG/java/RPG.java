@@ -27,12 +27,13 @@ class RPG {
             util.printLine();
             System.out.println("Options:");
             System.out.println("[1] Start");
-            System.out.println("[2] Quit");
+            System.out.println("[2] Load");
+            System.out.println("[3] Quit");
             int userAction = -1;
             boolean firstAction = true;
             while (true) {
                 userAction = scan.nextInt();
-                if ((userAction >= 1) && (userAction <= 2)) {
+                if ((userAction >= 1) && (userAction <= 3)) {
                     break;
                 } else {
                     if (firstAction) {
@@ -45,6 +46,9 @@ class RPG {
             }
             switch (userAction) {
                 case 1:
+                    userAction = SaveSystem.create();
+                    break;
+                case 2:
                     util.clearLine(4);
                     System.out.println("Select player:");
                     System.out.println("[1] Player 1 (op)");
@@ -65,7 +69,7 @@ class RPG {
                         }
                     }
                     break;
-                case 2:
+                case 3:
                     break outer;
             }
 
