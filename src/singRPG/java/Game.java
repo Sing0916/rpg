@@ -265,16 +265,11 @@ public class Game {
     }
 
     public static void showDetail(Unit u) {
-        if (u.getIsEnemy())
-            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
-                    + ", ATK:" + (int) u.getATK() + ", DEF:"
-                    + (int) u.getDEF());
-        else
-            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
-                    + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
-
+        String format = "%s%s%-3s%s%s%-10s%s%-3s%s%-3s\n";
+        System.out.printf(format, Colours.ANSI_PURPLE, "Lv.", (int) u.getLevel(), Colours.ANSI_RESET, " ", u.getNAME(),
+                " ATK:", (int) u.getATK(), " DEF:", (int) u.getDEF());
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
-        String format = "%s%3s%s%s%s";
+        format = "%s%3s%s%s%s";
         System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
@@ -292,15 +287,11 @@ public class Game {
     }
 
     public static void showDetail(Player u) {
-        if (u.getIsEnemy())
-            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
-                    + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
-        else
-            System.out.println(Colours.ANSI_PURPLE + "Lv." + (int) u.getLevel() + Colours.ANSI_RESET + " " + u.getNAME()
-                    + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
-
+        String format = "%s%s%-3s%s%s%-10s%s%-3s%s%-3s\n";
+        System.out.printf(format, Colours.ANSI_PURPLE, "Lv.", (int) u.getLevel(), Colours.ANSI_RESET, " ", u.getNAME(),
+                " ATK:", (int) u.getATK(), " DEF:", (int) u.getDEF());
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
-        String format = "%s%3s%s%s%s";
+        format = "%s%3s%s%s%s";
         System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
