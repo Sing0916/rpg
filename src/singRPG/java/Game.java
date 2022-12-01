@@ -2,7 +2,6 @@ package singRPG.java;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import org.json.simple.parser.ParseException;
@@ -94,43 +93,58 @@ public class Game {
                 break;
             case 1:
                 util.clearLine(4);
-                String format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
-                for (Magic magic : magics) {
-                    switch (magic.getMagicType()) {
-                        case BUFF:
-                            format = "%s%s%s%-20s%s%-7s%s%-7s%s%-7s%s%s\n";
-                            System.out.printf(format,
-                                    "[", Arrays.asList(magics).indexOf(magic), "]: ", magic.getNAME(), "Amount: ",
-                                    magic.getAMT(), "Cost: ", magic.getCOST(), "Hit Chance: ",
-                                    (double) magic.getChance() / 10, "Buff Type: ", magic.getBuffType());
-                            break;
-                        case DMG:
-                            System.out.printf(format,
-                                    "[", Arrays.asList(magics).indexOf(magic), "]: ", magic.getNAME(), "Damage: ",
-                                    magic.getAMT(), "Cost: ", magic.getCOST(), "Hit Chance: ",
-                                    (double) magic.getChance() / 10);
-                            break;
-                        case HEAL:
-                            System.out.printf(format,
-                                    "[", Arrays.asList(magics).indexOf(magic), "]: ", magic.getNAME(), "Amount: ",
-                                    magic.getAMT(), "Cost: ", magic.getCOST(), "Hit Chance: ",
-                                    (double) magic.getChance() / 10);
-                            break;
-                    }
-                }
+                int menuCount = 0;
                 int userAction = -1;
-                boolean firstAction = true;
-                while (true) {
-                    userAction = scan.nextInt();
-                    if (((userAction >= 0) && (userAction <= 4)) || (userAction == 898)) {
-                        break;
+                int okMagic = 0;
+                System.out.println("[0]: Up");
+                menuLoop: while (true) {
+                    if ((menuCount * 3 + 2) < magics.length) {
+                        for (int i = 0; i < 3; i++) {
+                            showMagic(menuCount, i);
+                        }
+                        okMagic = 3;
+                    } else if ((menuCount * 3 + 1) < magics.length) {
+                        for (int i = 0; i < 2; i++) {
+                            showMagic(menuCount, i);
+                        }
+                        okMagic = 2;
+                        System.out.println("[3]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
+                    } else if ((menuCount * 3) < magics.length) {
+                        okMagic = 1;
+                        showMagic(menuCount, 0);
+                        System.out.println("[2]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
+                        System.out.println("[3]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
                     } else {
-                        if (firstAction) {
-                            util.clearLine(1);
-                            firstAction = false;
-                        } else
-                            util.clearLine(2);
-                        System.out.println("Invalid input!");
+                        okMagic = 0;
+                        System.out.println("[1]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
+                        System.out.println("[2]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
+                        System.out.println("[3]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
+                    }
+                    System.out.println("[4]: Down");
+                    userAction = -1;
+                    boolean firstAction = true;
+                    while (true) {
+                        userAction = scan.nextInt();
+                        if (((userAction >= 0) && (userAction <= okMagic)) || (userAction == 4)
+                                || (userAction == 898)) {
+                            break;
+                        } else {
+                            if (firstAction) {
+                                util.clearLine(1);
+                                firstAction = false;
+                            } else
+                                util.clearLine(2);
+                            System.out.println("Invalid input!");
+                        }
+                    }
+                    if (userAction == 0) {
+                        menuCount--;
+                        util.clearLine(5);
+                    } else if (userAction == 4) {
+                        menuCount++;
+                        util.clearLine(5);
+                    } else {
+                        break menuLoop;
                     }
                 }
                 util.clearScreen();
@@ -141,13 +155,14 @@ public class Game {
                     System.out.println(to.getNAME() + " takes " + (int) tmp + " damage!");
                     System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 } else {
-                    System.out.println(from.getNAME() + " used " + magics[userAction].getNAME() + "!");
-                    switch (magics[userAction].getMagicType()) {
+                    System.out.println(
+                            from.getNAME() + " used " + magics[menuCount * 3 + userAction - 1].getNAME() + "!");
+                    switch (magics[menuCount * 3 + userAction - 1].getMagicType()) {
                         case DMG:
                             int r = (int) (Math.random() * 10);
-                            if (r <= magics[userAction].getChance()) {
-                                tmp = to.takeDMG(magics[userAction].getAMT(), DmgType.MAG);
-                                from.useMagic(magics[userAction].getCOST());
+                            if (r <= magics[menuCount * 3 + userAction - 1].getChance()) {
+                                tmp = to.takeDMG(magics[menuCount * 3 + userAction - 1].getAMT(), DmgType.MAG);
+                                from.useMagic(magics[menuCount * 3 + userAction - 1].getCOST());
                             } else
                                 tmp = 0;
                             if (tmp > 0)
@@ -157,13 +172,14 @@ public class Game {
                             System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                             break;
                         case HEAL:
-                            double amt = from.heal(magics[userAction].getAMT());
+                            double amt = from.heal(magics[menuCount * 3 + userAction - 1].getAMT());
                             System.out
                                     .println(from.getNAME() + " healed for " + (int) amt + " HP!");
                             System.out.println(from.getNAME() + " current HP is " + (int) to.getHP());
                             break;
                         case BUFF:
-                            from.buff(magics[userAction].getAMT(), magics[userAction].getBuffType());
+                            from.buff(magics[menuCount * 3 + userAction - 1].getAMT(),
+                                    magics[menuCount * 3 + userAction - 1].getBuffType());
                             break;
                     }
                 }
@@ -212,6 +228,38 @@ public class Game {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void showMagic(int menuCount, int i) {
+        String format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+        if (menuCount < 0) {
+            menuCount = 0;
+        }
+        switch (magics[menuCount * 3 + i].getMagicType()) {
+            case BUFF:
+                format = "%s%s%s%-20s%s%-7s%s%-7s%s%-7s%s%s\n";
+                System.out.printf(format,
+                        "[", (i + 1), "]: ", magics[menuCount * 3 + i].getNAME(), "Amount: ",
+                        magics[menuCount * 3 + i].getAMT(), "Cost: ",
+                        magics[menuCount * 3 + i].getCOST(), "Hit Chance: ",
+                        (double) magics[menuCount * 3 + i].getChance() / 10, "Buff Type: ",
+                        magics[menuCount * 3 + i].getBuffType());
+                break;
+            case DMG:
+                System.out.printf(format,
+                        "[", (i + 1), "]: ", magics[menuCount * 3 + i].getNAME(), "Damage: ",
+                        magics[menuCount * 3 + i].getAMT(), "Cost: ",
+                        magics[menuCount * 3 + i].getCOST(), "Hit Chance: ",
+                        (double) magics[menuCount * 3 + i].getChance() / 10);
+                break;
+            case HEAL:
+                System.out.printf(format,
+                        "[", (i + 1), "]: ", magics[menuCount * 3 + i].getNAME(), "Amount: ",
+                        magics[menuCount * 3 + i].getAMT(), "Cost: ",
+                        magics[menuCount * 3 + i].getCOST(), "Hit Chance: ",
+                        (double) magics[menuCount * 3 + i].getChance() / 10);
+                break;
         }
     }
 

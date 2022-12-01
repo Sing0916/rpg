@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import org.json.simple.parser.ParseException;
 
+import singRPG.classes.Magic;
 import singRPG.system.MagicSystem;
 import singRPG.system.SaveSystem;
 
@@ -23,11 +24,12 @@ public class TestRPG {
             util.printLine();
             System.out.println("[1] Create new player");
             System.out.println("[2] Create Magic");
+            System.out.println("[3] List Magic");
             int userAction = -1;
             boolean firstAction = true;
             while (true) {
                 userAction = scan.nextInt();
-                if ((userAction >= 1) && (userAction <= 2)) {
+                if ((userAction >= 1) && (userAction <= 3)) {
                     break;
                 } else {
                     if (firstAction) {
@@ -43,7 +45,38 @@ public class TestRPG {
                     SaveSystem.create();
                     break;
                 case 2:
-                    MagicSystem.write();
+                    MagicSystem.createMagic();
+                    break;
+                case 3:
+                    Magic magics[] = MagicSystem.readMagic();
+                    String format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+                    for (int i = 0; i < magics.length; i++) {
+                        switch (magics[i].getMagicType()) {
+                            case BUFF:
+                                format = "%s%s%s%-20s%s%-7s%s%-7s%s%-7s%s%s\n";
+                                System.out.printf(format,
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Amount: ",
+                                        magics[i].getAMT(), "Cost: ",
+                                        magics[i].getCOST(), "Hit Chance: ",
+                                        (double) magics[i].getChance() / 10, "Buff Type: ",
+                                        magics[i].getBuffType());
+                                break;
+                            case DMG:
+                                System.out.printf(format,
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Damage: ",
+                                        magics[i].getAMT(), "Cost: ",
+                                        magics[i].getCOST(), "Hit Chance: ",
+                                        (double) magics[i].getChance() / 10);
+                                break;
+                            case HEAL:
+                                System.out.printf(format,
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Amount: ",
+                                        magics[i].getAMT(), "Cost: ",
+                                        magics[i].getCOST(), "Hit Chance: ",
+                                        (double) magics[i].getChance() / 10);
+                                break;
+                        }
+                    }
                     break;
             }
             try {
