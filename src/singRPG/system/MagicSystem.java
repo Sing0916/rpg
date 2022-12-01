@@ -57,7 +57,7 @@ public class MagicSystem {
 
         System.out.print("Magic Type(DMG,BUFF,HEAL): ");
         String mtypeS = scan.nextLine();
-        System.out.print("Buff Type(ATK,DEF,MATK,MDEF,HP)(null): ");
+        System.out.print("Buff Type(ATK,DEF,MATK,MDEF,HP)(NULL): ");
         String btypeS = scan.nextLine();
         System.out.print("Name: ");
         String name = scan.nextLine();
@@ -68,7 +68,7 @@ public class MagicSystem {
         System.out.print("Chance(0-9): ");
         int chance = scan.nextInt();
         MagicType mtype = MagicType.valueOf(mtypeS);
-        if (btypeS.equals("null")) {
+        if (btypeS.equals("NULL")) {
             magics[number] = new Magic(amt, cost, name, chance, mtype, BuffType.NULL);
         } else {
             BuffType btype = BuffType.valueOf(btypeS);
@@ -82,7 +82,8 @@ public class MagicSystem {
             MagicDetails.put("Amount", magics[i].getAMT());
             MagicDetails.put("Cost", magics[i].getCOST());
             MagicDetails.put("Chance", magics[i].getChance());
-            MagicDetails.put("Type", magics[i].getMagicType().name());
+            MagicDetails.put("MagicType", magics[i].getMagicType().name());
+            MagicDetails.put("BuffType", magics[i].getBuffType().name());
             JSONObject MagicDetailsJ = new JSONObject(MagicDetails);
             outArray.add(MagicDetailsJ);
         }

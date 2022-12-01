@@ -49,10 +49,27 @@ public class TestRPG {
                     MagicSystem.createMagic();
                     break;
                 case 3:
+                    Util.clearScreen();
                     Magic magics[] = MagicSystem.readMagic();
-                    String format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+                    String format;
                     for (int i = 0; i < magics.length; i++) {
                         switch (magics[i].getMagicType()) {
+                            case DMG:
+                                format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+                                System.out.printf(format,
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Damage: ",
+                                        magics[i].getAMT(), "Cost: ",
+                                        magics[i].getCOST(), "Hit Chance: ",
+                                        (double) magics[i].getChance() / 10);
+                                break;
+                            case HEAL:
+                                format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+                                System.out.printf(format,
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Amount: ",
+                                        magics[i].getAMT(), "Cost: ",
+                                        magics[i].getCOST(), "Hit Chance: ",
+                                        (double) magics[i].getChance() / 10);
+                                break;
                             case BUFF:
                                 format = "%s%s%s%-20s%s%-7s%s%-7s%s%-7s%s%s\n";
                                 System.out.printf(format,
@@ -61,20 +78,6 @@ public class TestRPG {
                                         magics[i].getCOST(), "Hit Chance: ",
                                         (double) magics[i].getChance() / 10, "Buff Type: ",
                                         magics[i].getBuffType());
-                                break;
-                            case DMG:
-                                System.out.printf(format,
-                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Damage: ",
-                                        magics[i].getAMT(), "Cost: ",
-                                        magics[i].getCOST(), "Hit Chance: ",
-                                        (double) magics[i].getChance() / 10);
-                                break;
-                            case HEAL:
-                                System.out.printf(format,
-                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Amount: ",
-                                        magics[i].getAMT(), "Cost: ",
-                                        magics[i].getCOST(), "Hit Chance: ",
-                                        (double) magics[i].getChance() / 10);
                                 break;
                         }
                     }
