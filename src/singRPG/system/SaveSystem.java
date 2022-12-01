@@ -16,16 +16,27 @@ public class SaveSystem {
     static String array[] = new String[3];
     static int playerNum = 0;
 
-    // current version = 1.1
+    // current version = 1.2
     public static String[] readConfig()
             throws org.json.simple.parser.ParseException, FileNotFoundException, IOException {
-        Object obj = new JSONParser().parse(new FileReader("save/config.json"));
+        Object obj = new JSONParser().parse(new FileReader("config/config.json"));
         JSONObject jo = (JSONObject) obj;
         array[0] = (String) jo.get("Name");
         array[1] = (String) jo.get("Version");
         playerNum = Integer.parseInt((String) jo.get("Player"));
         array[2] = Integer.toString(playerNum);
         return array;
+    }
+
+    public static String[] getPlayerList() throws FileNotFoundException, IOException, ParseException {
+        String names[] = new String[playerNum];
+        for (int i = 0; i < playerNum; i++) {
+            Object obj = new JSONParser().parse(new FileReader("save/player" + (i + 1) + ".json"));
+            JSONObject jo = (JSONObject) obj;
+            String name = (String) jo.get("Name");
+            names[i] = name;
+        }
+        return names;
     }
 
     public static void write(Player p, int user) {
@@ -109,7 +120,7 @@ public class SaveSystem {
             e.printStackTrace();
         }
 
-        Object obj = new JSONParser().parse(new FileReader("save/config.json"));
+        Object obj = new JSONParser().parse(new FileReader("config/config.json"));
         JSONObject jo = (JSONObject) obj;
         array[0] = (String) jo.get("Name");
         array[1] = (String) jo.get("Version");
@@ -120,7 +131,7 @@ public class SaveSystem {
         config.put("Version", array[1]);
         config.put("Player", Integer.toString(Integer.parseInt(array[2]) + 1));
 
-        try (FileWriter file = new FileWriter("save/config.json")) {
+        try (FileWriter file = new FileWriter("config/config.json")) {
             file.write(config.toJSONString());
             file.flush();
             System.out.println("Success!");

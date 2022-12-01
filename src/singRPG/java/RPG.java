@@ -16,7 +16,7 @@ class RPG {
     static String array[];
 
     public static void main(String[] args) throws ParseException, FileNotFoundException, IOException {
-        util.clearScreen();
+        Util.clearScreen();
         array = SaveSystem.readConfig();
         SaveSystem.update();
 
@@ -25,7 +25,6 @@ class RPG {
             System.out.println("Welcome to " + array[0]);
             System.out.println("Version: " + array[1]);
             util.printLine();
-            System.out.println("Options:");
             System.out.println("[1] Start");
             System.out.println("[2] Load");
             System.out.println("[3] Quit");
@@ -51,13 +50,15 @@ class RPG {
                 case 2:
                     util.clearLine(4);
                     System.out.println("Select player:");
-                    System.out.println("[1] Player 1 (op)");
-                    System.out.println("[2] Player 2");
+                    String names[] = SaveSystem.getPlayerList();
+                    for (int i = 0; i < names.length; i++) {
+                        System.out.println("[" + (i + 1) + "] " + names[i]);
+                    }
                     userAction = -1;
                     firstAction = true;
                     while (true) {
                         userAction = scan.nextInt();
-                        if ((userAction >= 1) && (userAction <= 2)) {
+                        if ((userAction >= 1) && (userAction <= names.length)) {
                             break;
                         } else {
                             if (firstAction) {

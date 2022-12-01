@@ -19,7 +19,7 @@ public class MagicSystem {
     static Scanner scan = new Scanner(System.in);
 
     public static Magic[] readMagic() throws FileNotFoundException, IOException, ParseException {
-        Object obj = new JSONParser().parse(new FileReader("save/magic.json"));
+        Object obj = new JSONParser().parse(new FileReader("config/magic.json"));
         JSONObject jo = (JSONObject) obj;
         int number = ((Long) jo.get("number")).intValue();
         Magic magics[] = new Magic[number];
@@ -38,7 +38,7 @@ public class MagicSystem {
     }
 
     public static void createMagic() throws FileNotFoundException, IOException, ParseException {
-        Object obj = new JSONParser().parse(new FileReader("save/magic.json"));
+        Object obj = new JSONParser().parse(new FileReader("config/magic.json"));
         JSONObject jo = (JSONObject) obj;
         int number = ((Long) jo.get("number")).intValue();
         Magic magics[] = new Magic[number + 1];
@@ -87,7 +87,7 @@ public class MagicSystem {
         JSONObject magic = new JSONObject();
         magic.put("magics", outArray);
         magic.put("number", number + 1);
-        try (FileWriter file = new FileWriter("save/magic.json")) {
+        try (FileWriter file = new FileWriter("config/magic.json")) {
             file.write(magic.toJSONString());
             file.flush();
             System.out.println("Success!");
@@ -119,7 +119,7 @@ public class MagicSystem {
         JSONObject magic = new JSONObject();
         magic.put("magics", ja);
         magic.put("number", 5);
-        try (FileWriter file = new FileWriter("save/magic.json")) {
+        try (FileWriter file = new FileWriter("config/magic.json")) {
             file.write(magic.toJSONString());
             file.flush();
         } catch (IOException e) {
