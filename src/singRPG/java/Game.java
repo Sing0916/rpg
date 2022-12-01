@@ -72,7 +72,7 @@ public class Game {
 
             userAction = -1;
             counter++;
-            util.clearScreen();
+            Util.clearScreen();
             if (player.getMP() < 50)
                 player.setMP(player.getMP() + 5);
         }
@@ -82,7 +82,7 @@ public class Game {
         double tmp;
         switch (input) {
             case 0:
-                util.clearScreen();
+                Util.clearScreen();
                 util.printLine();
                 tmp = to.takeDMG(from.getATK(), DmgType.PHY);
                 System.out.println(from.getNAME() + " used Attack!");
@@ -148,7 +148,7 @@ public class Game {
                         break menuLoop;
                     }
                 }
-                util.clearScreen();
+                Util.clearScreen();
                 util.printLine();
                 if (userAction == 898) {
                     System.out.println(from.getNAME() + " used cheats!");
@@ -186,7 +186,7 @@ public class Game {
                 }
                 break;
             case 2:
-                util.clearScreen();
+                Util.clearScreen();
                 util.printLine();
                 from.shield();
                 System.out.println(from.getNAME() + " used Defence!");

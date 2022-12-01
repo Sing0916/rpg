@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,7 +41,7 @@ public class SaveSystem {
     }
 
     public static void write(Player p, int user) {
-        JSONObject playerDetails = new JSONObject();
+        HashMap<String, Object> playerDetails = new HashMap<String, Object>();
         playerDetails.put("Name", p.getNAME());
         playerDetails.put("MaxHp", p.getBaseHP());
         playerDetails.put("MaxMp", p.getBaseMP());
@@ -52,8 +53,10 @@ public class SaveSystem {
         playerDetails.put("Level", p.getLevel());
         playerDetails.put("version", array[1]);
 
+        JSONObject playerDetailsJ = new JSONObject(playerDetails);
+
         try (FileWriter file = new FileWriter("save/player" + user + ".json")) {
-            file.write(playerDetails.toJSONString());
+            file.write(playerDetailsJ.toJSONString());
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,7 +103,7 @@ public class SaveSystem {
         Util.clearScreen();
         System.out.print("Name: ");
         String name = scan.nextLine();
-        JSONObject playerDetails = new JSONObject();
+        HashMap<String, Object> playerDetails = new HashMap<String, Object>();
         playerDetails.put("Name", name);
         playerDetails.put("MaxHp", 100.0);
         playerDetails.put("MaxMp", 10.0);
@@ -113,8 +116,9 @@ public class SaveSystem {
         playerDetails.put("version", array[1]);
         int temp = Integer.parseInt(array[2]) + 1;
 
+        JSONObject playerDetailsJ = new JSONObject(playerDetails);
         try (FileWriter file = new FileWriter("save/player" + temp + ".json")) {
-            file.write(playerDetails.toJSONString());
+            file.write(playerDetailsJ.toJSONString());
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,13 +130,14 @@ public class SaveSystem {
         array[1] = (String) jo.get("Version");
         array[2] = (String) jo.get("Player");
 
-        JSONObject config = new JSONObject();
+        HashMap<String, Object> config = new HashMap<String, Object>();
         config.put("Name", array[0]);
         config.put("Version", array[1]);
         config.put("Player", Integer.toString(Integer.parseInt(array[2]) + 1));
+        JSONObject configJ = new JSONObject(config);
 
         try (FileWriter file = new FileWriter("config/config.json")) {
-            file.write(config.toJSONString());
+            file.write(configJ.toJSONString());
             file.flush();
             System.out.println("Success!");
         } catch (IOException e) {

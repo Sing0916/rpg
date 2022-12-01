@@ -79,7 +79,7 @@ class RPG {
             // Player player = new Player(100, 10, 10, 20, 10, "Sing", true);
             Unit enemy = new Unit(100, 5, 5, 0, 0, "Wolf", false, 100);
             Game game = new Game(player, enemy);
-            util.clearScreen();
+            Util.clearScreen();
             boolean win = game.start();
             if (win)
                 System.out.println("You win!");
@@ -94,7 +94,7 @@ class RPG {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            util.clearScreen();
+            Util.clearScreen();
         }
     }
 }

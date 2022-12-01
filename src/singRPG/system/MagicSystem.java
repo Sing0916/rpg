@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
@@ -76,19 +77,21 @@ public class MagicSystem {
 
         JSONArray outArray = new JSONArray();
         for (int i = 0; i < number + 1; i++) {
-            JSONObject MagicDetails = new JSONObject();
+            HashMap<String, Object> MagicDetails = new HashMap<String, Object>();
             MagicDetails.put("Name", magics[i].getNAME());
             MagicDetails.put("Amount", magics[i].getAMT());
             MagicDetails.put("Cost", magics[i].getCOST());
             MagicDetails.put("Chance", magics[i].getChance());
             MagicDetails.put("Type", magics[i].getMagicType().name());
-            outArray.add(MagicDetails);
+            JSONObject MagicDetailsJ = new JSONObject(MagicDetails);
+            outArray.add(MagicDetailsJ);
         }
-        JSONObject magic = new JSONObject();
+        HashMap<String, Object> magic = new HashMap<String, Object>();
         magic.put("magics", outArray);
         magic.put("number", number + 1);
+        JSONObject magicJ = new JSONObject(magic);
         try (FileWriter file = new FileWriter("config/magic.json")) {
-            file.write(magic.toJSONString());
+            file.write(magicJ.toJSONString());
             file.flush();
             System.out.println("Success!");
         } catch (IOException e) {
@@ -106,21 +109,23 @@ public class MagicSystem {
         magics[4] = new Magic(10.0, 10.0, "Power Up", 9, MagicType.BUFF, BuffType.ATK);
 
         for (int i = 0; i < 5; i++) {
-            JSONObject MagicDetails = new JSONObject();
+            HashMap<String, Object> MagicDetails = new HashMap<String, Object>();
             MagicDetails.put("Name", magics[i].getNAME());
             MagicDetails.put("Amount", magics[i].getAMT());
             MagicDetails.put("Cost", magics[i].getCOST());
             MagicDetails.put("Chance", magics[i].getChance());
             MagicDetails.put("MagicType", magics[i].getMagicType().name());
             MagicDetails.put("BuffType", magics[i].getBuffType().name());
-            ja.add(MagicDetails);
+            JSONObject MagicDetailsJ = new JSONObject(MagicDetails);
+            ja.add(MagicDetailsJ);
         }
 
-        JSONObject magic = new JSONObject();
+        HashMap<String, Object> magic = new HashMap<String, Object>();
         magic.put("magics", ja);
         magic.put("number", 5);
+        JSONObject magicJ = new JSONObject(magic);
         try (FileWriter file = new FileWriter("config/magic.json")) {
-            file.write(magic.toJSONString());
+            file.write(magicJ.toJSONString());
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,7 +17,7 @@ public class TestRPG {
     static String array[];
 
     public static void main(String[] args) throws ParseException, FileNotFoundException, IOException {
-        util.clearScreen();
+        Util.clearScreen();
         array = SaveSystem.readConfig();
         SaveSystem.update();
 
@@ -43,7 +43,7 @@ public class TestRPG {
             }
             switch (userAction) {
                 case 1:
-                    int tmp = SaveSystem.create();
+                    SaveSystem.create();
                     break;
                 case 2:
                     MagicSystem.createMagic();
@@ -85,7 +85,7 @@ public class TestRPG {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            util.clearScreen();
+            Util.clearScreen();
         }
     }
 }
