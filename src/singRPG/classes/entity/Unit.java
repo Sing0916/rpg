@@ -1,5 +1,6 @@
 package singRPG.classes.entity;
 
+import singRPG.constant.enums.BuffType;
 import singRPG.constant.enums.DmgType;
 
 public class Unit {
@@ -21,6 +22,7 @@ public class Unit {
 
     String name = "empty unit";
     boolean isEnemy = true;
+    boolean shielded = false;
 
     public Unit() {
     }
@@ -59,33 +61,37 @@ public class Unit {
 
     public double takeDMG(double dmg, DmgType type) {
         double dmgDeal = 0;
-        switch (type) {
-            case PHY:
-                dmgDeal = dmg - DEF;
-                if (dmgDeal > 0)
-                    if (dmgDeal < HP)
-                        HP -= dmgDeal;
-                    else {
-                        dmgDeal = HP;
-                        HP = 0;
-                    }
-                break;
-            case MAG:
-                dmgDeal = dmg - MDEF;
-                if (dmgDeal > 0)
-                    if (dmgDeal < HP)
-                        HP -= dmgDeal;
-                    else {
-                        dmgDeal = HP;
-                        HP = 0;
-                    }
-                break;
-            case TRE:
-                dmgDeal = dmg;
-                HP -= dmgDeal;
-                break;
+        if (shielded)
+            return dmgDeal;
+        else {
+            switch (type) {
+                case PHY:
+                    dmgDeal = dmg - DEF;
+                    if (dmgDeal > 0)
+                        if (dmgDeal < HP)
+                            HP -= dmgDeal;
+                        else {
+                            dmgDeal = HP;
+                            HP = 0;
+                        }
+                    break;
+                case MAG:
+                    dmgDeal = dmg - MDEF;
+                    if (dmgDeal > 0)
+                        if (dmgDeal < HP)
+                            HP -= dmgDeal;
+                        else {
+                            dmgDeal = HP;
+                            HP = 0;
+                        }
+                    break;
+                case TRE:
+                    dmgDeal = dmg;
+                    HP -= dmgDeal;
+                    break;
+            }
+            return dmgDeal;
         }
-        return dmgDeal;
     }
 
     public double heal(double h) {
@@ -98,6 +104,32 @@ public class Unit {
             HP += healAMT;
         }
         return healAMT;
+    }
+
+    public void buff(double a, BuffType t) {
+        switch (t) {
+            case ATK:
+                ATK += a;
+                break;
+            case DEF:
+                DEF += a;
+                break;
+            case MATK:
+                MATK += a;
+                break;
+            case MDEF:
+                MDEF += a;
+                break;
+            case HP:
+                HP += a;
+                break;
+            case NULL:
+                break;
+        }
+    }
+
+    public void shield() {
+        shielded = true;
     }
 
     public double defUP() {

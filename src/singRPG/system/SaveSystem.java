@@ -1,16 +1,19 @@
-package singRPG.java;
+package singRPG.system;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import singRPG.classes.entity.Player;
 
 public class SaveSystem {
-    static String array[] = new String[2];
+    static Scanner scan = new Scanner(System.in);
+    static String array[] = new String[3];
 
     // current version = 1.1
     public static String[] readConfig()
@@ -19,6 +22,8 @@ public class SaveSystem {
         JSONObject jo = (JSONObject) obj;
         array[0] = (String) jo.get("Name");
         array[1] = (String) jo.get("Version");
+        int temp = Integer.parseInt((String) jo.get("Player"));
+        array[2] = Integer.toString(temp);
         return array;
     }
 
@@ -76,6 +81,49 @@ public class SaveSystem {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void create() throws FileNotFoundException, IOException, ParseException {
+        System.out.print("Name: ");
+        String name = scan.nextLine();
+        JSONObject playerDetails = new JSONObject();
+        playerDetails.put("Name", name);
+        playerDetails.put("MaxHp", 100);
+        playerDetails.put("MaxMp", 10);
+        playerDetails.put("Atk", 10);
+        playerDetails.put("Def", 10);
+        playerDetails.put("MAtk", 20);
+        playerDetails.put("MDef", 10);
+        playerDetails.put("Exp", 0);
+        playerDetails.put("Level", 0);
+        playerDetails.put("version", array[1]);
+        int temp = Integer.parseInt(array[2]) + 1;
+
+        try (FileWriter file = new FileWriter("save/player" + temp + ".json")) {
+            file.write(playerDetails.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Object obj = new JSONParser().parse(new FileReader("save/config.json"));
+        JSONObject jo = (JSONObject) obj;
+        array[0] = (String) jo.get("Name");
+        array[1] = (String) jo.get("Version");
+        array[2] = (String) jo.get("Player");
+
+        JSONObject config = new JSONObject();
+        config.put("Name", array[0]);
+        config.put("Version", array[1]);
+        config.put("Player", Integer.toString(Integer.parseInt(array[2]) + 1));
+
+        try (FileWriter file = new FileWriter("save/config.json")) {
+            file.write(config.toJSONString());
+            file.flush();
+            System.out.println("Success!");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

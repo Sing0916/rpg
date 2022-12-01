@@ -1,5 +1,6 @@
 package singRPG.classes;
 
+import singRPG.constant.enums.BuffType;
 import singRPG.constant.enums.MagicType;
 
 public class Magic {
@@ -7,14 +8,16 @@ public class Magic {
     double COST = 1;
     String name = "empty magic";
     int chance = 1;// 0-9
-    MagicType type;
+    MagicType Mtype;
+    BuffType Btype;
 
-    public Magic(double d, double c, String n, int ch, MagicType t) {
+    public Magic(double d, double c, String n, int ch, MagicType t, BuffType t2) {
         AMT = d;
         COST = c;
         name = n;
         chance = ch;
-        type = t;
+        Mtype = t;
+        Btype = t2;
     }
 
     Magic() {
@@ -52,11 +55,19 @@ public class Magic {
         chance = c;
     }
 
-    public MagicType getType() {
-        return type;
+    public MagicType getMagicType() {
+        return Mtype;
     }
 
-    public void setType(MagicType t) {
-        type = t;
+    public void setMagicType(MagicType t) {
+        Mtype = t;
+    }
+
+    public BuffType getBuffType() {
+        return Btype;
+    }
+
+    public void setBuffType(BuffType t) {
+        Btype = t;
     }
 }

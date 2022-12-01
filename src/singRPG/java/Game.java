@@ -1,29 +1,30 @@
 package singRPG.java;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import org.json.simple.parser.ParseException;
 
 import singRPG.classes.Magic;
 import singRPG.classes.entity.Player;
 import singRPG.classes.entity.Unit;
 import singRPG.constant.Colours;
 import singRPG.constant.enums.DmgType;
-import singRPG.constant.enums.MagicType;
+import singRPG.system.MagicSystem;
 
 public class Game {
     static Player player = new Player();
     static Unit enemy = new Unit();
     static Util util = new Util();
-    static Magic magics[] = new Magic[4];
+    static Magic magics[];
     static Scanner scan = new Scanner(System.in);
 
-    public Game(Player p, Unit e) {
+    public Game(Player p, Unit e) throws FileNotFoundException, IOException, ParseException {
         player = p;
         enemy = e;
-        magics[0] = new Magic(10.0, 5.0, "Fire Ball", 9, MagicType.DMG);
-        magics[1] = new Magic(20.0, 10.0, "Thunder Strike", 6, MagicType.DMG);
-        magics[2] = new Magic(50.0, 25.0, "Shadow Claw", 3, MagicType.DMG);
-        magics[3] = new Magic(20.0, 10.0, "Heal", 9, MagicType.HEAL);
+        magics = MagicSystem.readMagic();
     }
 
     public boolean start() {
@@ -37,14 +38,13 @@ public class Game {
             System.out.println("[0]: Attack");
             System.out.println("[1]: Magic");
             System.out.println("[2]: Defence");
-            System.out.println("[3]: Power Up");
 
             // user action
             int userAction = -1;
             boolean firstAction = true;
             while (true) {
                 userAction = scan.nextInt();
-                if ((userAction >= 0) && (userAction <= 3)) {
+                if ((userAction >= 0) && (userAction <= 2)) {
                     break;
                 } else {
                     if (firstAction) {
@@ -93,22 +93,28 @@ public class Game {
                 System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 break;
             case 1:
-                util.clearLine(5);
+                util.clearLine(4);
+                String format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
                 for (Magic magic : magics) {
-                    switch (magic.getType()) {
+                    switch (magic.getMagicType()) {
                         case BUFF:
+                            format = "%s%s%s%-20s%s%-7s%s%-7s%s%-7s%s%s\n";
+                            System.out.printf(format,
+                                    "[", Arrays.asList(magics).indexOf(magic), "]: ", magic.getNAME(), "Amount: ",
+                                    magic.getAMT(), "Cost: ", magic.getCOST(), "Hit Chance: ",
+                                    (double) magic.getChance() / 10, "Buff Type: ", magic.getBuffType());
                             break;
                         case DMG:
-                            System.out.println(
-                                    "[" + Arrays.asList(magics).indexOf(magic) + "]: " + magic.getNAME() + " - Damage: "
-                                            + magic.getAMT() + ", Cost: " + magic.getCOST() + ", Hit Chance: "
-                                            + (double) magic.getChance() / 10);
+                            System.out.printf(format,
+                                    "[", Arrays.asList(magics).indexOf(magic), "]: ", magic.getNAME(), "Damage: ",
+                                    magic.getAMT(), "Cost: ", magic.getCOST(), "Hit Chance: ",
+                                    (double) magic.getChance() / 10);
                             break;
                         case HEAL:
-                            System.out.println(
-                                    "[" + Arrays.asList(magics).indexOf(magic) + "]: " + magic.getNAME() + " - Amount: "
-                                            + magic.getAMT() + ", Cost: " + magic.getCOST() + ", Hit Chance: "
-                                            + (double) magic.getChance() / 10);
+                            System.out.printf(format,
+                                    "[", Arrays.asList(magics).indexOf(magic), "]: ", magic.getNAME(), "Amount: ",
+                                    magic.getAMT(), "Cost: ", magic.getCOST(), "Hit Chance: ",
+                                    (double) magic.getChance() / 10);
                             break;
                     }
                 }
@@ -116,7 +122,7 @@ public class Game {
                 boolean firstAction = true;
                 while (true) {
                     userAction = scan.nextInt();
-                    if (((userAction >= 0) && (userAction <= 3)) || (userAction == 898)) {
+                    if (((userAction >= 0) && (userAction <= 4)) || (userAction == 898)) {
                         break;
                     } else {
                         if (firstAction) {
@@ -136,7 +142,7 @@ public class Game {
                     System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 } else {
                     System.out.println(from.getNAME() + " used " + magics[userAction].getNAME() + "!");
-                    switch (magics[userAction].getType()) {
+                    switch (magics[userAction].getMagicType()) {
                         case DMG:
                             int r = (int) (Math.random() * 10);
                             if (r <= magics[userAction].getChance()) {
@@ -157,6 +163,7 @@ public class Game {
                             System.out.println(from.getNAME() + " current HP is " + (int) to.getHP());
                             break;
                         case BUFF:
+                            from.buff(magics[userAction].getAMT(), magics[userAction].getBuffType());
                             break;
                     }
                 }
@@ -164,16 +171,9 @@ public class Game {
             case 2:
                 util.clearScreen();
                 util.printLine();
-                tmp = from.defUP();
+                from.shield();
                 System.out.println(from.getNAME() + " used Defence!");
-                System.out.println(from.getNAME() + "'s defence changed to " + (int) tmp);
-                break;
-            case 3:
-                util.clearScreen();
-                util.printLine();
-                tmp = from.pwrUp();
-                System.out.println(from.getNAME() + " used Power Up!");
-                System.out.println(from.getNAME() + "'s attack changed to " + (int) tmp);
+                System.out.println(from.getNAME() + " shielded himself");
                 break;
         }
         util.printLine();
@@ -225,7 +225,8 @@ public class Game {
                     + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
 
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
-        System.out.print("HP: " + (int) u.getHP() + "/" + (int) u.getMaxHP() + " [");
+        String format = "%s%3s%s%s%s";
+        System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_GREEN + "=" + Colours.ANSI_RESET);
@@ -250,7 +251,8 @@ public class Game {
                     + ", ATK:" + (int) u.getATK() + ", DEF:" + (int) u.getDEF());
 
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
-        System.out.print("HP: " + (int) u.getHP() + "/" + (int) u.getMaxHP() + " [");
+        String format = "%s%3s%s%s%s";
+        System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_GREEN + "=" + Colours.ANSI_RESET);
@@ -258,7 +260,7 @@ public class Game {
                 System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
         }
         p = (int) Math.floor((u.getMP() / u.getMaxMP()) * 20);
-        System.out.print("] MP: " + (int) u.getMP() + "/" + (int) u.getMaxMP() + " [");
+        System.out.print("]  MP: " + (int) u.getMP() + "/" + (int) u.getMaxMP() + " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_CYAN + "=" + Colours.ANSI_RESET);
