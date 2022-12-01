@@ -76,7 +76,6 @@ class RPG {
 
             Player player = SaveSystem.read(userAction);
 
-            // Player player = new Player(100, 10, 10, 20, 10, "Sing", true);
             Unit enemy = new Unit(100, 5, 5, 0, 0, "Wolf", false, 100);
             Game game = new Game(player, enemy);
             Util.clearScreen();
