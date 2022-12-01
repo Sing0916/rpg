@@ -61,9 +61,10 @@ public class Unit {
 
     public double takeDMG(double dmg, DmgType type) {
         double dmgDeal = 0;
-        if (shielded)
+        if (shielded) {
+            shielded = false;
             return dmgDeal;
-        else {
+        } else {
             switch (type) {
                 case PHY:
                     dmgDeal = dmg - DEF;
