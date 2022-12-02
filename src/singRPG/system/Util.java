@@ -19,4 +19,13 @@ public class Util {
     public void printLine() {
         System.out.println(Colours.ANSI_YELLOW + "-------------------------" + Colours.ANSI_RESET);
     }
+
+    public static void pressAnyKey() {
+        System.out.println("Press enter to continue...");
+        try {
+            System.in.read();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

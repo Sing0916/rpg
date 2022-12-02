@@ -77,12 +77,7 @@ public class Game {
 
             userAction = -1;
             counter++;
-            System.out.println("Press enter to continue...");
-            try {
-                System.in.read();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Util.pressAnyKey();
             Util.clearScreen();
             if (player.getMP() < 50)
                 player.setMP(player.getMP() + 5);
@@ -247,13 +242,13 @@ public class Game {
     }
 
     public static void showMagic(int menuCount, int i) {
-        String format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+        String format = "%s%s%s%-20s%s%-8s%s%-7s%s%s\n";
         if (menuCount < 0) {
             menuCount = 0;
         }
         switch (magics[menuCount * 3 + i].getMagicType()) {
             case BUFF:
-                format = "%s%s%s%-20s%s%-7s%s%-7s%s%-7s%s%s\n";
+                format = "%s%s%s%-20s%s%-8s%s%-7s%s%-7s%s%s\n";
                 System.out.printf(format,
                         "[", (i + 2), "]: ", magics[menuCount * 3 + i].getNAME(), "Amount: ",
                         magics[menuCount * 3 + i].getAMT(), "Cost: ",

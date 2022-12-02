@@ -95,12 +95,7 @@ class RPG {
             player.updateLV();
             System.out.println("EXP: " + (int) player.getEXP() + "/" + (int) (player.getLevel() + 1) * 100);
             SaveSystem.write(player, userAction);
-            System.out.println("Press enter to continue...");
-            try {
-                System.in.read();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Util.pressAnyKey();
             Util.clearScreen();
         }
     }
