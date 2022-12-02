@@ -134,7 +134,7 @@ public class Unit {
     }
 
     public double defUP() {
-        DEF += 5;
+        DEF += 2;
         return DEF;
     }
 

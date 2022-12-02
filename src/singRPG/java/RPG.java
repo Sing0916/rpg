@@ -33,6 +33,8 @@ class RPG {
             while (true) {
                 userAction = scan.nextInt();
                 if ((userAction >= 1) && (userAction <= 3)) {
+                    if (!firstAction)
+                        util.clearLine(1);
                     break;
                 } else {
                     if (firstAction) {
@@ -49,6 +51,7 @@ class RPG {
                     break;
                 case 2:
                     util.clearLine(4);
+                    System.out.println("[0] Back");
                     System.out.println("Select player:");
                     String names[] = SaveSystem.getPlayerList();
                     for (int i = 0; i < names.length; i++) {
@@ -58,7 +61,7 @@ class RPG {
                     firstAction = true;
                     while (true) {
                         userAction = scan.nextInt();
-                        if ((userAction >= 1) && (userAction <= names.length)) {
+                        if ((userAction >= 0) && (userAction <= names.length)) {
                             break;
                         } else {
                             if (firstAction) {
@@ -74,6 +77,10 @@ class RPG {
                     break outer;
             }
 
+            if (userAction == 0) {
+                Util.clearScreen();
+                continue outer;
+            }
             Player player = SaveSystem.read(userAction);
 
             Unit enemy = new Unit(100, 5, 5, 0, 0, "Wolf", false, 100);
@@ -88,9 +95,10 @@ class RPG {
             player.updateLV();
             System.out.println("EXP: " + (int) player.getEXP() + "/" + (int) (player.getLevel() + 1) * 100);
             SaveSystem.write(player, userAction);
+            System.out.println("Press enter to continue...");
             try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                System.in.read();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Util.clearScreen();
