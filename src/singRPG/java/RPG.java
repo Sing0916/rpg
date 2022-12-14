@@ -11,9 +11,9 @@ import singRPG.system.SaveSystem;
 import singRPG.system.Util;
 
 class RPG {
-    static Util util = new Util();
     static Scanner scan = new Scanner(System.in);
     static String array[];
+    static int userAction = -1;
 
     public static void main(String[] args) throws ParseException, FileNotFoundException, IOException {
         Util.clearScreen();
@@ -21,57 +21,27 @@ class RPG {
         SaveSystem.update();
 
         outer: while (true) {
-            util.printLine();
+            Util.printLine();
             System.out.println("Welcome to " + array[0]);
             System.out.println("Version: " + array[1]);
-            util.printLine();
+            Util.printLine();
             System.out.println("[1] Start");
             System.out.println("[2] Load");
             System.out.println("[3] Quit");
-            int userAction = -1;
-            boolean firstAction = true;
-            while (true) {
-                userAction = scan.nextInt();
-                if ((userAction >= 1) && (userAction <= 3)) {
-                    if (!firstAction)
-                        util.clearLine(1);
-                    break;
-                } else {
-                    if (firstAction) {
-                        util.clearLine(1);
-                        firstAction = false;
-                    } else
-                        util.clearLine(2);
-                    System.out.println("Invalid input!");
-                }
-            }
+            userAction = Util.checkUserAction(1, 3);
             switch (userAction) {
                 case 1:
                     userAction = SaveSystem.create();
                     break;
                 case 2:
-                    util.clearLine(4);
+                    Util.clearLine(4);
                     System.out.println("[0] Back");
                     System.out.println("Select player:");
                     String names[] = SaveSystem.getPlayerList();
                     for (int i = 0; i < names.length; i++) {
                         System.out.println("[" + (i + 1) + "] " + names[i]);
                     }
-                    userAction = -1;
-                    firstAction = true;
-                    while (true) {
-                        userAction = scan.nextInt();
-                        if ((userAction >= 0) && (userAction <= names.length)) {
-                            break;
-                        } else {
-                            if (firstAction) {
-                                util.clearLine(1);
-                                firstAction = false;
-                            } else
-                                util.clearLine(2);
-                            System.out.println("Invalid input!");
-                        }
-                    }
+                    userAction = Util.checkUserAction(0, names.length);
                     break;
                 case 3:
                     break outer;

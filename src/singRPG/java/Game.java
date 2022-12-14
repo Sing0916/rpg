@@ -16,9 +16,9 @@ import singRPG.system.Util;
 public class Game {
     static Player player = new Player();
     static Unit enemy = new Unit();
-    static Util util = new Util();
     static Magic magics[];
     static Scanner scan = new Scanner(System.in);
+    static int userAction = -1;
 
     public Game(Player p, Unit e) throws FileNotFoundException, IOException, ParseException {
         player = p;
@@ -34,28 +34,12 @@ public class Game {
                     .println(Colours.ANSI_YELLOW + "------Round " + counter + " Start------" + Colours.ANSI_RESET);
             showDetail(enemy);
             showDetail(player);
-            System.out.println("[0]: Attack");
-            System.out.println("[1]: Magic");
-            System.out.println("[2]: Defence");
+            System.out.println("[1]: Attack");
+            System.out.println("[2]: Magic");
+            System.out.println("[3]: Defence");
 
             // user action
-            int userAction = -1;
-            boolean firstAction = true;
-            while (true) {
-                userAction = scan.nextInt();
-                if ((userAction >= 0) && (userAction <= 2)) {
-                    if (!firstAction)
-                        util.clearLine(1);
-                    break;
-                } else {
-                    if (firstAction) {
-                        util.clearLine(1);
-                        firstAction = false;
-                    } else
-                        util.clearLine(2);
-                    System.out.println("Invalid input!");
-                }
-            }
+            userAction = Util.checkUserAction(1, 3);
             boolean back = playerAction(userAction, player, enemy);
             if (!back) {
                 Util.clearScreen();
@@ -87,9 +71,9 @@ public class Game {
     public static boolean playerAction(int input, Player from, Unit to) {
         double tmp;
         switch (input) {
-            case 0:
+            case 1:
                 Util.clearScreen();
-                util.printLine();
+                Util.printLine();
                 tmp = to.takeDMG(from.getATK(), DmgType.PHY);
                 System.out.println(from.getNAME() + " used Attack!");
                 if (tmp > 0)
@@ -98,8 +82,8 @@ public class Game {
                     System.out.println(to.getNAME() + " takes 0 damage!");
                 System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 break;
-            case 1:
-                util.clearLine(4);
+            case 2:
+                Util.clearLine(4);
                 int menuCount = 0;
                 int userAction = -1;
                 int okMagic = 0;
@@ -129,36 +113,21 @@ public class Game {
                         System.out.println("[4]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
                     }
                     System.out.println("[5]: Down");
-                    userAction = -1;
-                    boolean firstAction = true;
-                    while (true) {
-                        userAction = scan.nextInt();
-                        if (((userAction >= 0) && (userAction <= okMagic + 1)) || (userAction == 5)
-                                || (userAction == 898)) {
-                            break;
-                        } else {
-                            if (firstAction) {
-                                util.clearLine(1);
-                                firstAction = false;
-                            } else
-                                util.clearLine(2);
-                            System.out.println("Invalid input!");
-                        }
-                    }
+                    userAction = Util.checkUserAction(0, okMagic + 1, 5, 898);
                     if (userAction == 0) {
                         return false;
                     } else if (userAction == 1) {
                         menuCount--;
-                        util.clearLine(5);
+                        Util.clearLine(5);
                     } else if (userAction == 5) {
                         menuCount++;
-                        util.clearLine(5);
+                        Util.clearLine(5);
                     } else {
                         break menuLoop;
                     }
                 }
                 Util.clearScreen();
-                util.printLine();
+                Util.printLine();
                 if (userAction == 898) {
                     System.out.println(from.getNAME() + " used cheats!");
                     tmp = to.takeDMG(to.getHP(), DmgType.TRE);
@@ -193,15 +162,15 @@ public class Game {
                     }
                 }
                 break;
-            case 2:
+            case 3:
                 Util.clearScreen();
-                util.printLine();
+                Util.printLine();
                 from.shield();
                 System.out.println(from.getNAME() + " used Defence!");
                 System.out.println(from.getNAME() + " shielded himself");
                 break;
         }
-        util.printLine();
+        Util.printLine();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -233,12 +202,7 @@ public class Game {
                 System.out.println(from.getNAME() + "'s attack changed to " + (int) tmp);
                 break;
         }
-        util.printLine();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Util.printLine();
     }
 
     public static void showMagic(int menuCount, int i) {
@@ -292,7 +256,7 @@ public class Game {
         }
         System.out.print("]");
         System.out.println("");
-        util.printLine();
+        Util.printLine();
     }
 
     public static void showDetail(Player u) {
@@ -322,6 +286,6 @@ public class Game {
         }
         System.out.print("]");
         System.out.println("");
-        util.printLine();
+        Util.printLine();
     }
 }

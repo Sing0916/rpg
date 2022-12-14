@@ -12,9 +12,9 @@ import singRPG.system.SaveSystem;
 import singRPG.system.Util;
 
 public class TestRPG {
-    static Util util = new Util();
     static Scanner scan = new Scanner(System.in);
     static String array[];
+    int userAction = -1;
 
     public static void main(String[] args) throws ParseException, FileNotFoundException, IOException {
         Util.clearScreen();
@@ -22,25 +22,11 @@ public class TestRPG {
         SaveSystem.update();
 
         while (true) {
-            util.printLine();
+            Util.printLine();
             System.out.println("[1] Create new player");
             System.out.println("[2] Create Magic");
             System.out.println("[3] List Magic");
-            int userAction = -1;
-            boolean firstAction = true;
-            while (true) {
-                userAction = scan.nextInt();
-                if ((userAction >= 1) && (userAction <= 3)) {
-                    break;
-                } else {
-                    if (firstAction) {
-                        util.clearLine(1);
-                        firstAction = false;
-                    } else
-                        util.clearLine(2);
-                    System.out.println("Invalid input!");
-                }
-            }
+            int userAction = Util.checkUserAction(1, 3);
             switch (userAction) {
                 case 1:
                     SaveSystem.create();
