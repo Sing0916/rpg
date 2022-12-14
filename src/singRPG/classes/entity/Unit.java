@@ -41,7 +41,10 @@ public class Unit {
         MATK = oMATK + 1 * Math.floor(EXP / 100);
         MDEF = oMDEF + 1 * Math.floor(EXP / 100);
 
-        exp = EXP;
+        if (EXP <= 0)
+            exp = 0;
+        else
+            exp = EXP;
         level = Math.floor(EXP / 100);
         baseHP = health;
         name = n;

@@ -53,7 +53,7 @@ class RPG {
             }
             Player player = SaveSystem.read(userAction);
 
-            Unit enemy = new Unit(100, 5, 5, 0, 0, "Wolf", false, 100);
+            Unit enemy = new Unit(100, 5, 5, 0, 0, "Wolf", false, (player.getLevel() - (Math.random() * 15 + 1)) * 100);
             Game game = new Game(player, enemy);
             Util.clearScreen();
             boolean win = game.start();
