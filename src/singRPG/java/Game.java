@@ -47,7 +47,7 @@ public class Game {
             }
             if ((enemy.getHP() <= 0)) {
                 System.out.println("Enemy is dead!");
-                player.setEXP(player.getEXP() + enemy.getLevel() * 10);
+                player.setEXP(player.getEXP() + (player.getLevel() - enemy.getLevel()) * 15);
                 return true;
             }
 
