@@ -20,6 +20,7 @@ class RPG {
         array = SaveSystem.readConfig();
         SaveSystem.update();
 
+        // loop game
         outer: while (true) {
             Util.printLine();
             System.out.println("Welcome to " + array[0]);
@@ -47,21 +48,24 @@ class RPG {
                     break outer;
             }
 
+            // back from select player
             if (userAction == 0) {
                 Util.clearScreen();
                 continue outer;
             }
             Player player = SaveSystem.read(userAction);
-
             Unit enemy = new Unit(100, 5, 5, 0, 0, "Wolf", false, (player.getLevel() - (Math.random() * 15 + 1)) * 100);
             Game game = new Game(player, enemy);
             Util.clearScreen();
+
+            // game start
             boolean win = game.start();
             if (win)
                 System.out.println("You win!");
             else
                 System.out.println("You lose!");
 
+            // game end
             player.updateLV();
             System.out.println("EXP: " + (int) player.getEXP() + "/" + (int) (player.getLevel() + 1) * 100);
             SaveSystem.write(player, userAction);

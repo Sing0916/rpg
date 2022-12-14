@@ -101,8 +101,11 @@ public class SaveSystem {
 
     public static int create() throws FileNotFoundException, IOException, ParseException {
         Util.clearScreen();
+        System.out.println("Enter 0 to escape to menu.");
         System.out.print("Name: ");
         String name = scan.nextLine();
+        if (Integer.parseInt(name) == 0)
+            return 0;
         HashMap<String, Object> playerDetails = new HashMap<String, Object>();
         playerDetails.put("Name", name);
         playerDetails.put("MaxHp", 100.0);

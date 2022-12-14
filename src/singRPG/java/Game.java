@@ -20,15 +20,19 @@ public class Game {
     static Scanner scan = new Scanner(System.in);
     static int userAction = -1;
 
+    // game initialize
     public Game(Player p, Unit e) throws FileNotFoundException, IOException, ParseException {
         player = p;
         enemy = e;
         magics = MagicSystem.readMagic();
     }
 
+    // main game logic
     public boolean start() {
+        // round counter
         int counter = 1;
 
+        // main user action loop
         userLoop: while (true) {
             System.out
                     .println(Colours.ANSI_YELLOW + "------Round " + counter + " Start------" + Colours.ANSI_RESET);
@@ -59,7 +63,7 @@ public class Game {
                 return false;
             }
 
-            userAction = -1;
+            // round end
             counter++;
             Util.pressAnyKey();
             Util.clearScreen();
@@ -72,6 +76,7 @@ public class Game {
         double tmp;
         switch (input) {
             case 1:
+                // normal attack
                 Util.clearScreen();
                 Util.printLine();
                 tmp = to.takeDMG(from.getATK(), DmgType.PHY);
@@ -83,6 +88,7 @@ public class Game {
                 System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 break;
             case 2:
+                // magic
                 Util.clearLine(4);
                 int menuCount = 0;
                 int userAction = -1;
@@ -163,6 +169,7 @@ public class Game {
                 }
                 break;
             case 3:
+                // defence
                 Util.clearScreen();
                 Util.printLine();
                 from.shield();
@@ -183,6 +190,7 @@ public class Game {
         double tmp;
         switch (input) {
             case 0:
+                // normal attack
                 tmp = to.takeDMG(from.getATK(), DmgType.PHY);
                 System.out.println(from.getNAME() + " used Attack!");
                 if (tmp > 0)
@@ -192,11 +200,13 @@ public class Game {
                 System.out.println(to.getNAME() + " current HP is " + (int) to.getHP());
                 break;
             case 1:
+                // defence
                 tmp = from.defUP();
                 System.out.println(from.getNAME() + " used Defence!");
                 System.out.println(from.getNAME() + "'s defence changed to " + (int) tmp);
                 break;
             case 2:
+                // power up
                 tmp = from.pwrUp();
                 System.out.println(from.getNAME() + " used Power Up!");
                 System.out.println(from.getNAME() + "'s attack changed to " + (int) tmp);
@@ -237,6 +247,7 @@ public class Game {
         }
     }
 
+    // show stat
     public static void showDetail(Unit u) {
         String format = "%s%s%-3s%s%s%-10s%s%-3s%s%-3s\n";
         System.out.printf(format, Colours.ANSI_PURPLE, "Lv.", (int) u.getLevel(), Colours.ANSI_RESET, " ", u.getNAME(),
@@ -259,6 +270,7 @@ public class Game {
         Util.printLine();
     }
 
+    // show stat
     public static void showDetail(Player u) {
         String format = "%s%s%-3s%s%s%-10s%s%-3s%s%-3s\n";
         System.out.printf(format, Colours.ANSI_PURPLE, "Lv.", (int) u.getLevel(), Colours.ANSI_RESET, " ", u.getNAME(),
