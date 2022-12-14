@@ -3,14 +3,14 @@ package singRPG.constant;
 public class Colours {
     // text Colours
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK = "\u001B[38;5;16m";
+    public static final String ANSI_RED = "\u001B[38;5;196m";
+    public static final String ANSI_GREEN = "\u001B[38;5;118m";
+    public static final String ANSI_YELLOW = "\u001B[38;5;185m";
+    public static final String ANSI_BLUE = "\u001B[38;5;21m";
+    public static final String ANSI_PURPLE = "\u001B[38;5;129m";
+    public static final String ANSI_CYAN = "\u001B[38;5;123m";
+    public static final String ANSI_WHITE = "\u001B[38;5;15m";
 
     // BG Colours
     public static final String ANSI_BLACK_BG = "\u001B[40m";

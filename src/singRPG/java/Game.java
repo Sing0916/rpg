@@ -251,10 +251,10 @@ public class Game {
     public static void showDetail(Unit u) {
         String format = "%s%s%-3s%s%s%-10s%s%-3s%s%-3s\n";
         System.out.printf(format, Colours.ANSI_PURPLE, "Lv.", (int) u.getLevel(), Colours.ANSI_RESET, " ", u.getNAME(),
-                " ATK:", (int) u.getATK(), " DEF:", (int) u.getDEF());
+                "| ATK:", (int) u.getATK(), " DEF:", (int) u.getDEF());
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
-        format = "%s%3s%s%s%s";
-        System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), " [");
+        format = "%s%3s%s%s%s%s";
+        System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), Colours.ANSI_YELLOW, " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_GREEN + "=" + Colours.ANSI_RESET);
@@ -265,7 +265,7 @@ public class Game {
                     System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
             }
         }
-        System.out.print("]");
+        System.out.print(Colours.ANSI_YELLOW + "]");
         System.out.println("");
         Util.printLine();
     }
@@ -274,10 +274,10 @@ public class Game {
     public static void showDetail(Player u) {
         String format = "%s%s%-3s%s%s%-10s%s%-3s%s%-3s\n";
         System.out.printf(format, Colours.ANSI_PURPLE, "Lv.", (int) u.getLevel(), Colours.ANSI_RESET, " ", u.getNAME(),
-                " ATK:", (int) u.getATK(), " DEF:", (int) u.getDEF());
+                "| ATK:", (int) u.getATK(), " DEF:", (int) u.getDEF());
         int p = (int) Math.floor((u.getHP() / u.getMaxHP()) * 20);
-        format = "%s%3s%s%s%s";
-        System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), " [");
+        format = "%s%3s%s%s%s%s";
+        System.out.printf(format, "HP: ", (int) u.getHP(), "/", (int) u.getMaxHP(), Colours.ANSI_YELLOW, " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_GREEN + "=" + Colours.ANSI_RESET);
@@ -285,7 +285,8 @@ public class Game {
                 System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
         }
         p = (int) Math.floor((u.getMP() / u.getMaxMP()) * 20);
-        System.out.print("]  MP: " + (int) u.getMP() + "/" + (int) u.getMaxMP() + " [");
+        System.out.print(Colours.ANSI_YELLOW + "]" + Colours.ANSI_RESET + "  MP: " + (int) u.getMP() + "/"
+                + (int) u.getMaxMP() + Colours.ANSI_YELLOW + " [");
         for (int i = 0; i < 20; i++) {
             if (i < p)
                 System.out.print(Colours.ANSI_CYAN + "=" + Colours.ANSI_RESET);
@@ -296,7 +297,7 @@ public class Game {
                     System.out.print(Colours.ANSI_RED + "-" + Colours.ANSI_RESET);
             }
         }
-        System.out.print("]");
+        System.out.print(Colours.ANSI_YELLOW + "]");
         System.out.println("");
         Util.printLine();
     }

@@ -6,5 +6,5 @@ public enum BuffType {
     MATK,
     MDEF,
     HP,
-    NULL
+    NULL;
 }

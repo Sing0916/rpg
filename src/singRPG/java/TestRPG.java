@@ -41,38 +41,34 @@ public class TestRPG {
                     for (int i = 0; i < magics.length; i++) {
                         switch (magics[i].getMagicType()) {
                             case DMG:
-                                format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+                                format = "%s%s%s%-20s%s%-8s%s%-7s%s%s\n";
                                 System.out.printf(format,
-                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Damage: ",
-                                        magics[i].getAMT(), "Cost: ",
-                                        magics[i].getCOST(), "Hit Chance: ",
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "|Damage: ",
+                                        magics[i].getAMT(), "|Cost: ",
+                                        magics[i].getCOST(), "|Hit Chance: ",
                                         (double) magics[i].getChance() / 10);
                                 break;
                             case HEAL:
-                                format = "%s%s%s%-20s%s%-7s%s%-7s%s%s\n";
+                                format = "%s%s%s%-20s%s%-8s%s%-7s%s%s\n";
                                 System.out.printf(format,
-                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Amount: ",
-                                        magics[i].getAMT(), "Cost: ",
-                                        magics[i].getCOST(), "Hit Chance: ",
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "|Amount: ",
+                                        magics[i].getAMT(), "|Cost: ",
+                                        magics[i].getCOST(), "|Hit Chance: ",
                                         (double) magics[i].getChance() / 10);
                                 break;
                             case BUFF:
-                                format = "%s%s%s%-20s%s%-7s%s%-7s%s%-7s%s%s\n";
+                                format = "%s%s%s%-20s%s%-8s%s%-7s%s%-4s%s%s\n";
                                 System.out.printf(format,
-                                        "[", (i + 1), "]: ", magics[i].getNAME(), "Amount: ",
-                                        magics[i].getAMT(), "Cost: ",
-                                        magics[i].getCOST(), "Hit Chance: ",
-                                        (double) magics[i].getChance() / 10, "Buff Type: ",
+                                        "[", (i + 1), "]: ", magics[i].getNAME(), "|Amount: ",
+                                        magics[i].getAMT(), "|Cost: ",
+                                        magics[i].getCOST(), "|Hit Chance: ",
+                                        (double) magics[i].getChance() / 10, "|Buff Type: ",
                                         magics[i].getBuffType());
                                 break;
                         }
                     }
+                    Util.pressAnyKey();
                     break;
-            }
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             Util.clearScreen();
         }

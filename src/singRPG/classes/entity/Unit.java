@@ -45,7 +45,7 @@ public class Unit {
             exp = 0;
         else
             exp = EXP;
-        level = Math.floor(EXP / 100);
+        level = Math.floor(exp / 100);
         baseHP = health;
         name = n;
         if (isPlayer)
