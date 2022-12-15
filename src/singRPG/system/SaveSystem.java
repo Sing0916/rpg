@@ -14,7 +14,7 @@ import singRPG.classes.entity.Player;
 
 public class SaveSystem {
     static Scanner scan = new Scanner(System.in);
-    static String array[] = new String[3];
+    static String array[] = new String[3];// 0:game name, 1:version, 2:player count
     static int playerNum = 0;
 
     // current version = 1.2
@@ -84,17 +84,22 @@ public class SaveSystem {
             Object obj = new JSONParser().parse(new FileReader("save/player" + i + ".json"));
             JSONObject jo = (JSONObject) obj;
             String version = (String) jo.get("version");
-            switch (version) {
-                case "1.0":
-                    jo.put("Level", 0);
-                    break;
-            }
-            jo.replace("version", array[1]);
-            try (FileWriter file = new FileWriter("save/player" + i + ".json")) {
-                file.write(jo.toJSONString());
-                file.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (Double.parseDouble(version) < Double.parseDouble(array[1])) {
+                // switch to add field to save
+                // break only in the last case
+                // add version case in asce order
+                switch (version) {
+                    case "1.2":
+                        jo.put("Level", 0);
+                        break;
+                }
+                jo.replace("version", array[1]);
+                try (FileWriter file = new FileWriter("save/player" + i + ".json")) {
+                    file.write(jo.toJSONString());
+                    file.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

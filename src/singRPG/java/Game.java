@@ -56,7 +56,7 @@ public class Game {
             }
 
             // enemy action
-            int r = (int) (Math.random() * 3);
+            int r = (int) (Math.random() * 4);
             enemyAction(r, enemy, player);
             if ((player.getHP() <= 0)) {
                 System.out.println("You are dead!");
@@ -96,27 +96,20 @@ public class Game {
                 System.out.println("[0]: Back");
                 System.out.println("[1]: Up");
                 menuLoop: while (true) {
-                    if ((menuCount * 3 + 2) < magics.length) {
-                        for (int i = 0; i < 3; i++) {
-                            showMagic(menuCount, i);
-                        }
-                        okMagic = 3;
-                    } else if ((menuCount * 3 + 1) < magics.length) {
-                        for (int i = 0; i < 2; i++) {
-                            showMagic(menuCount, i);
-                        }
-                        okMagic = 2;
-                        System.out.println("[4]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
-                    } else if ((menuCount * 3) < magics.length) {
-                        okMagic = 1;
-                        showMagic(menuCount, 0);
-                        System.out.println("[3]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
-                        System.out.println("[4]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
-                    } else {
+                    for (int i = 0; (i < (3 - ((menuCount + 1) * 3 - magics.length))) && i < 3; i++) {
+                        showMagic(menuCount, i);
+                    }
+                    if ((3 - ((menuCount + 1) * 3 - magics.length)) < 0)
                         okMagic = 0;
-                        System.out.println("[2]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
-                        System.out.println("[3]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
-                        System.out.println("[4]: " + Colours.ANSI_RED + "--------------------" + Colours.ANSI_RESET);
+                    else if ((3 - ((menuCount + 1) * 3 - magics.length)) > 3)
+                        okMagic = 3;
+                    else
+                        okMagic = 3 - ((menuCount + 1) * 3 - magics.length);
+                    for (int i = 0; (i < ((menuCount + 1) * 3 - magics.length)) && i < 3; i++) {
+                        System.out
+                                .println(
+                                        "[" + (i + 2) + "]: " + Colours.ANSI_RED + "--------------------"
+                                                + Colours.ANSI_RESET);
                     }
                     System.out.println("[5]: Down");
                     userAction = Util.checkUserAction(0, okMagic + 1, 5, 898);
@@ -210,6 +203,17 @@ public class Game {
                 tmp = from.pwrUp();
                 System.out.println(from.getNAME() + " used Power Up!");
                 System.out.println(from.getNAME() + "'s attack changed to " + (int) tmp);
+                break;
+            case 3:
+                int r = (int) (Math.random() * 5);
+                if (r < 2) {
+                    tmp = from.heal((int) (Math.random() * 21));
+                    System.out
+                            .println(from.getNAME() + " healed for " + (int) tmp + " HP!");
+                    System.out.println(from.getNAME() + " current HP is " + (int) to.getHP());
+                } else {
+                    System.out.println(from.getNAME() + " did nothing!");
+                }
                 break;
         }
         Util.printLine();

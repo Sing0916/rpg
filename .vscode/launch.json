@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch TestAlone",
+            "request": "launch",
+            "mainClass": "singRPG.java.TestAlone",
+            "projectName": "rpg_324d6cfc"
+        },
+        {
+            "type": "java",
             "name": "Launch TestRPG",
             "request": "launch",
             "mainClass": "singRPG.java.TestRPG",

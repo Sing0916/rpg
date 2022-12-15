@@ -58,7 +58,7 @@ public class Unit {
         if (tmp != level) {
             maxHP = baseHP + 10 * level;
             HP = maxHP;
-            System.out.println("Level up! " + tmp + "->" + level);
+            System.out.println("Level up! " + tmp + " -> " + level);
         }
     }
 
