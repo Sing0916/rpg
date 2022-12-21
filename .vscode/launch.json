@@ -30,20 +30,6 @@
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Launch RPG",
-            "request": "launch",
-            "mainClass": "singRPG.java.RPG",
-            "projectName": "rpg_64efde1f"
-        },
-        {
-            "type": "java",
-            "name": "Launch TestRPG",
-            "request": "launch",
-            "mainClass": "singRPG.java.TestRPG",
-            "projectName": "rpg_64efde1f"
         }
     ]
 }
